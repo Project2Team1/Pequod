@@ -6,7 +6,17 @@ module.exports = function(app) {
     db.Example.findAll({}).then(function(dbExamples) {
       res.render("index", {
         msg: "Welcome!",
-        examples: dbExamples
+        examples: dbExamples,
+        coins: [
+          { name: "Bitcoin" , symbol: "btc", value: 123 },
+          { name: "Ethereum", symbol: "eth", value: 456 },
+          { name: "Stellar" , symbol: "xlm", value: 789 }
+        ],
+        markets: [
+          { name: "coinbase" },
+          { name: "eToro"    },
+          { name: "Kraken"   }
+        ]
       });
     });
   });
