@@ -12,10 +12,10 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('CryptoCoins', [
-      { name: "Bitcoin" , symbol: "BTC", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Ethereum", symbol: "ETH", createdAt: new Date(), updatedAt: new Date() },
-      { name: "Stellar" , symbol: "XLM", createdAt: new Date(), updatedAt: new Date() }
+    return queryInterface.bulkInsert('CryptoMarkets', [
+      { name: "coinbase", createdAt: new Date(), updatedAt: new Date() },
+      { name: "eToro"   , createdAt: new Date(), updatedAt: new Date() },
+      { name: "Kraken"  , createdAt: new Date(), updatedAt: new Date() }
     ], {});
   },
 
@@ -27,6 +27,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('CryptoCoins', null, {});
+    return queryInterface.bulkDelete('CryptoMarkets', null, {});
   }
 };
