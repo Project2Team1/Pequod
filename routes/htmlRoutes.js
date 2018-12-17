@@ -2,23 +2,32 @@ var db = require("../models");
 
 module.exports = function(app) {
   // Load index page
-  app.get("/", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
-      res.render("index", {
-        msg: "Welcome!",
-        examples: dbExamples,
-        coins: [
-          { name: "Bitcoin" , symbol: "btc", value: 123 },
-          { name: "Ethereum", symbol: "eth", value: 456 },
-          { name: "Stellar" , symbol: "xlm", value: 789 }
-        ],
-        markets: [
-          { name: "coinbase" },
-          { name: "eToro"    },
-          { name: "Kraken"   }
-        ]
-      });
+  app.get("/", async function(req, res) {
+    let examples = db.Example
+    .findAll({});
+    let coins = 
+      db.CryptoCoin
+      .findAll({})
+      .then(coinResults => coinResults.map(coin => { coin.value=123; return coin; }));
+
+    res.render("index", {
+      msg: "Welcome!",
+      examples: await examples,
+      coins: await coins,
+      markets: [
+        { name: "coinbase" },
+        { name: "eToro"    },
+        { name: "Kraken"   }
+      ]
     });
+
+    // db.CryptoCoin.findAll({}).then(findAllCryptoCoinResults => {
+    //   findAllCryptoCoinResults.forEach( (coin, index) => {
+    //     console.log(index);
+    //     for (k in coin) {
+    //       console.log(k);
+    //     }
+    //   });
   });
 
   // Load example page and pass in an example by id
