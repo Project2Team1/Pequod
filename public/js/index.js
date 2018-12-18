@@ -98,4 +98,21 @@ $(document).ready(function () {
   // Add event listeners to the submit and delete buttons
   $submitBtn.on("click", handleFormSubmit);
   $exampleList.on("click", ".delete", handleDeleteBtnClick);
+
+
+  // Initialize economy values
+
+  let currentBalance = 1000;
+  let startingBalance = 1000;
+  let balanceSpent = 0;
+  let netChange = 0;
+
+  // Insert values into finance report 
+
+  $("#currentBalance").text(currentBalance);
+  $("#startingBalance").text(startingBalance);
+  $("#balanceSpent").text(balanceSpent);
+  $("#netChange").text(netChange);
+
+
 });
