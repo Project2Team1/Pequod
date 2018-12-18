@@ -7,14 +7,16 @@
     "start": "node server.js",
     "lint": "eslint **/*.js --quiet",
     "fix": "eslint --fix .",
-    "test": "npm run lint && NODE_ENV=test mocha -u tdd --reporter spec --exit"
+    "test": "npm run lint & SET NODE_ENV=test & mocha -u tdd --reporter spec --exit"
   },
   "license": "ISC",
   "dependencies": {
+    "cryptocurrency-icons": "^0.9.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
-    "mysql2": "^1.5.3",
+    "mysql2": "^1.6.4",
+    "npm-cli": "^0.1.0",
     "sequelize": "^4.38.0"
   },
   "devDependencies": {

@@ -2,7 +2,8 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "node": true
+        "node": true,
+        "es6": true
     },
     "extends": "prettier",
     "plugins": [
@@ -19,7 +20,7 @@
         "dot-notation": "error",
         "eqeqeq": "error",
         "no-empty-function": "error",
-        "no-multi-spaces": "error",
+        "no-multi-spaces": "warn",
         "no-unused-vars": "error",
         "camelcase": "error",
         "indent": [
@@ -34,7 +35,6 @@
         "semi": [
             "error",
             "always"
-        ],
-        "prettier/prettier": "error"
+        ]
     }
 }
