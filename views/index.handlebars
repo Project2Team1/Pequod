@@ -1,23 +1,55 @@
 <div id="home">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Cryptocurrency Simulator</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">FAQ</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Learn More</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<br>
+
   <div class="container">
 
-    <div class="row jumbotron text-center">
-      <h1 class="col">Coin Clash - Project Pequod</h1>
+
+    
+    <br>
+    
+    <div class="row">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10" id="startBlurb">
+        <p>
+          <span id="intro">Let's face it:</span> cryptocurrency is <i>complicated.</i> These days, the mechanics of trading cryptocurrencies are difficult to understand -- but at the core of all of the chaos there lies a very simple economic principle. This app is designed to simulate the bare-bones basics of trading currencies; see for yourself how beneath the bluster of the cutting-edge currency market, this commodity isn't so different than any other. 
+        </p>
+      </div>
+      <div class="col-lg-1"></div>
     </div>
 
-    <div class="row">
-      <div class="col money text-center">$0</div>
-    </div>
+    <br><br>
+
 
     <div class="row">
-      <div class="col">
-        <p>Cryptocoins</p>
+      <div class="col-md-6" id="coinBox">
+        <p id="coinHeader">Cryptocoins</p>
         <ul class="list-group">
           {{#each coins}}
           <li data-id="coin-{{this.symbol}}" class="row align-content-center">
-          <div class="col">
+          <div class="col" id="coinIcon">
+            <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
             <a href="#">{{this.name}}</a>
-            <img class="coinicon" src="images\\cryptocurrency-icons\\{{this.symbol}}@2x.png">
           </div>
           <p class="col">$ {{this.value}}</p>
           <div class="col">
@@ -33,44 +65,94 @@
         <button id='getPrices'>Get Prices</button>
       </div>
 
-      <div class="col-auto d-flex" style="flex-flow: column nowrap;">
-        <p>Market Exchanges</p>
-        <div class="list-group">
-          {{#each markets}}
-          <a href="#" data-id="market-{{this.name}}" class="list-group-item list-group-item-action bg-info text-white">{{this.name}}</a>
-          {{else}}
-          <p>No Markets!?</p>
-          {{/each}}
-        </div>
-      </div>
-    </div>
 
-    <p>{{msg}}</p>
-    <form class="clearfix mb-4" action="POST">
-      <div class="form-group">
-        <label for="example-text">Example Text</label>
-        <input type="text" id="example-text" class="form-control" aria-describedby="example-text" placeholder="Enter Example Text">
+      <div class="col-md-6">
+
+        <div class="card" id="bankCard" style="width: 18rem; text-align: center;">
+          <div class="card-body">
+            <h5 class="card-title">Finance Report</h5>
+            <p class="card-text">Use this to track your portfolio's performance.</p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><span class="bankHead">Current Balance:</span> Placeholder </li>
+            <li class="list-group-item"><span class="bankHead">Starting Balance:</span> Placeholder </li>
+            <li class="list-group-item"><span class="bankHead">Balance spent: </span> Placeholder </li>
+            <li class="list-group-item"><span class="bankHead">Net Change: </span> Placeholder </li>
+          </ul>
       </div>
-      <div class="form-group">
-        <label for="example-description">Example Description</label>
-        <textarea class="form-control" id="example-description" aria-describedby="example-description" placeholder="Enter Example Description"></textarea>
+        
       </div>
-      <button id="submit" class="btn btn-primary float-right">Submit</button>
-    </form>
-    <h3>Examples:</h3>
-    <ul id="example-list" class="list-group">
-      {{#each examples}}
-      <li data-id="{{this.id}}" class="list-group-item">
-        <a href="example/{{this.id}}">{{this.text}}</a>
-        <button class="btn btn-danger float-right delete">ｘ</button>
-      </li>
-      {{/each}}
-    </ul>
+
+      
+    </div>
+    
+    
+    <br><br><br>
 
   </div>
 
 </div>
 
+<style>
+
+  html {
+    height: 100vh;
+  }
+  body {
+
+    height: 100vh;
+    background-image: url("./images/pink_rice.png")
+  }
+
+  .container {
+
+    background-color: #F0F0F0;
+    
+  }
+
+  #startBlurb {
+    border-color: black;
+    border-style: solid;
+    text-align:center;
+  }
+
+  #coinHeader {
+    text-align: center;
+    font-family:Arial, Helvetica, sans-serif;
+    text-shadow: 3px 2px rgba(212, 210, 210, 0.664);
+    font-size:20pt;
+  }
+
+  #intro {
+    font-size: 18pt;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+  }
+
+
+  #getPrices {
+
+    position:absolute;
+    left: 45%;
+  }
+
+  #coinBox {
+
+    border-right: black solid 2px;
+    position: relative;
+    left: 10px;
+  }
+
+  #bankCard {
+    position: relative;
+    left: 100px;
+  }
+ 
+
+  #moneyTracker {
+    color: black;
+  }
+</style>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>
