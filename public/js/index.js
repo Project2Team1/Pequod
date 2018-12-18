@@ -114,5 +114,62 @@ $(document).ready(function () {
   $("#balanceSpent").text(balanceSpent);
   $("#netChange").text(netChange);
 
+  // Initialize functions for changing transTotal values
+
+
+  let coin1 = 0;
+  let coin2 = 0;
+  let coin3 = 0;
+
+
+
+  // On click buttons, execute function
+
+  $("#minus1").click(function() {
+
+    coin1--; 
+    $("#transTotal1").text(coin1);
+
+  });
+
+  $("#plus1").click(function() {
+
+    coin1++;
+    $("#transTotal1").text(coin1);
+
+  });
+
+  $("#minus2").click(function() {
+
+    coin2 --; 
+
+    $("#transTotal2").text(coin2);
+
+  });
+
+  $("#plus2").click(function() {
+
+    coin2 ++;
+    $("#transTotal2").text(coin2);
+
+  });
+
+  $("#minus3").click(function() {
+
+    coin3 --; 
+
+    $("#transTotal3").text(coin3);
+
+  });
+
+  $("#plus3").click(function() {
+
+    coin3 ++;
+    $("#transTotal3").text(coin3);
+
+  });
+
+
+
 
 });
