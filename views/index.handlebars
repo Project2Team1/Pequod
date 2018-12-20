@@ -44,6 +44,7 @@
     <div class="row">
       <div class="col-md-6" id="coinBox">
         <p id="coinHeader">Cryptocoins</p>
+        <br><br>
         <ul class="list-group">
           {{#each coins}}
           <li data-id="coin-{{this.symbol}}" class="row align-content-center">
@@ -55,7 +56,7 @@
           <div class="col">
             <button class="btn btn-danger  delete" id="minus{{this.id}}">-</button>
             <button class="btn btn-success delete" id="plus{{this.id}}">+</button>
-            <div id="transTotal{{this.id}}" style="position: relative; left: 20px;">Test</div>
+            <strong><div id="transTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
           </div>
         </li>
           {{else}}
@@ -63,7 +64,11 @@
           {{/each}}
         </ul>
 
-        <button id='getPrices'>Commit Transaction </button>
+        <br><br>
+
+        <!-- Trigger/Open The Modal -->
+        <button id="confirmTrans">Confirm Transaction</button>
+
       </div>
 
 
@@ -92,68 +97,44 @@
 
   </div>
 
+
+  <!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <br>
+    <p style="text-align: center;"><strong>Remember,</strong> the goal for many who work with cryptocurrencies is to play the market and earn a profit. Try to buy coins at a low price, and sell them when you think the price is at its peak! </p>
+    <div class="container" id="modalContainer">
+    <br>
+    <ul class="list-group">
+          {{#each coins}}
+          <li data-id="coin-{{this.symbol}}" class="row align-content-center">
+          <div class="col" id="coinIcon">
+            <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
+            <a href="#">{{this.name}}</a>
+          </div>
+          <p class="col">$ {{this.value}}</p>
+          <div class="col">
+            <strong><div id="transTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
+          </div>
+        </li>
+          {{else}}
+          <p>No Coins!?</p>
+          {{/each}}
+        </ul> 
+    </div>
+  </div>
+
 </div>
 
-<style>
-
-  html {
-    height: 100vh;
-  }
-  body {
-
-    height: 100vh;
-    background-image: url("./images/pink_rice.png")
-  }
-
-  .container {
-
-    background-color: #F0F0F0;
-    
-  }
-
-  #startBlurb {
-    border-color: black;
-    border-style: solid;
-    text-align:center;
-  }
-
-  #coinHeader {
-    text-align: center;
-    font-family:Arial, Helvetica, sans-serif;
-    text-shadow: 3px 2px rgba(212, 210, 210, 0.664);
-    font-size:20pt;
-  }
-
-  #intro {
-    font-size: 18pt;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: bold;
-  }
 
 
-  #getPrices {
 
-    position:absolute;
-    left: 45%;
-  }
+</div>
 
-  #coinBox {
 
-    border-right: black solid 2px;
-    position: relative;
-    left: 10px;
-  }
-
-  #bankCard {
-    position: relative;
-    left: 100px;
-  }
- 
-
-  #moneyTracker {
-    color: black;
-  }
-</style>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>
