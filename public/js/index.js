@@ -83,22 +83,6 @@ $(document).ready(function () {
     $exampleDescription.val("");
   };
 
-  // handleDeleteBtnClick is called when an example's delete button is clicked
-  // Remove the example from the db and refresh the list
-  var handleDeleteBtnClick = function () {
-    var idToDelete = $(this)
-      .parent()
-      .attr("data-id");
-
-    API.deleteExample(idToDelete).then(function () {
-      refreshExamples();
-    });
-  };
-
-  // Add event listeners to the submit and delete buttons
-  $submitBtn.on("click", handleFormSubmit);
-  $exampleList.on("click", ".delete", handleDeleteBtnClick);
-
 
   // Initialize economy values
 
@@ -120,6 +104,16 @@ $(document).ready(function () {
   let coin1 = 0;
   let coin2 = 0;
   let coin3 = 0;
+
+
+  // Coin value reset function
+
+  function coinReset() {
+
+    coin1 = 0;
+    coin2 = 0;
+    coin3 = 0;
+  }
 
 
 
@@ -174,6 +168,71 @@ $(document).ready(function () {
 
 
   });
+
+  // COIN BANK OBJECT
+
+  let coinNames = [];
+
+  let coinValues = [];
+
+  // populate coinBank object on documentReady
+
+  function namePopulate() {
+
+    // check how many coins are on the page    
+
+    $(".coinName").each(function(index) {
+      console.log ( index + ": " + $(this).text() );
+
+      let name = $(this).text();
+
+      coinNames.push(name);
+
+      console.log(coinNames);
+
+
+    });
+
+    
+
+  }
+
+  function valPopulate() {
+
+    $(".coinValue").each(function(index) {
+
+      console.log ( index + ": " + $(this).text() );
+
+      let value = $(this).text();
+
+      coinValues.push(name);
+
+      console.log(coinValues);
+
+
+    });
+  }
+
+  namePopulate();
+  valPopulate();
+
+
+  // PURCHASE FUNCTION
+
+  function buyCoins() {
+
+    // For each coin
+
+    // subtract price from current balance
+
+    // add coin to coin bank
+
+    // update curre
+  }
+
+
+
+  // MODAL INFO
 
 
   // Get the modal

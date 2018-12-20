@@ -22,6 +22,11 @@ body {
   left: 190px;
 }
 
+#confirmSale {
+  position: relative;
+  left: 37%;
+}
+
 #startBlurb {
   border-color: black;
   border-style: solid;
@@ -53,6 +58,16 @@ body {
   border-right: black solid 2px;
   position: relative;
   left: 50px;
+}
+
+#secondBox {
+  border-top: black solid 2px;
+  border-bottom: black solid 2px;
+}
+
+#coinBank {
+  left: 100px;
+  width: 30%;
 }
 
 #bankCard {
