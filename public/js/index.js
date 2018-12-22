@@ -1,9 +1,5 @@
 $(document).ready(function () {
   // Get references to page elements
-  var $exampleText = $("#example-text");
-  var $exampleDescription = $("#example-description");
-  var $submitBtn = $("#submit");
-  var $exampleList = $("#example-list");
 
   // The API object contains methods for each kind of request we'll make
   var API = {
@@ -31,58 +27,8 @@ $(document).ready(function () {
     }
   };
 
-  // refreshExamples gets new examples from the db and repopulates the list
-  var refreshExamples = function () {
-    API.getExamples().then(function (data) {
-      var $examples = data.map(function (example) {
-        var $a = $("<a>")
-          .text(example.text)
-          .attr("href", "/example/" + example.id);
-
-        var $li = $("<li>")
-          .attr({
-            class: "list-group-item",
-            "data-id": example.id
-          })
-          .append($a);
-
-        var $button = $("<button>")
-          .addClass("btn btn-danger float-right delete")
-          .text("ｘ");
-
-        $li.append($button);
-
-        return $li;
-      });
-
-      $exampleList.empty();
-      $exampleList.append($examples);
-    });
-  };
 
   // handleFormSubmit is called whenever we submit a new example
-  // Save the new example to the db and refresh the list
-  var handleFormSubmit = function (event) {
-    event.preventDefault();
-
-    var example = {
-      text: $exampleText.val().trim(),
-      description: $exampleDescription.val().trim()
-    };
-
-    if (!(example.text && example.description)) {
-      alert("You must enter an example text and description!");
-      return;
-    }
-
-    API.saveExample(example).then(function () {
-      refreshExamples();
-    });
-
-    $exampleText.val("");
-    $exampleDescription.val("");
-  };
-
 
   // Initialize economy values
 
@@ -104,16 +50,6 @@ $(document).ready(function () {
   let coin1 = 0;
   let coin2 = 0;
   let coin3 = 0;
-
-
-  // Coin value reset function
-
-  function coinReset() {
-
-    coin1 = 0;
-    coin2 = 0;
-    coin3 = 0;
-  }
 
 
 
@@ -164,10 +100,6 @@ $(document).ready(function () {
   });
 
 
-  $("getPrices").click(function() {
-
-
-  });
 
   // COIN BANK OBJECT
 
@@ -191,30 +123,29 @@ $(document).ready(function () {
       console.log(coinNames);
 
 
+      $("#nonsense").each(function(index) {
+
+        console.log ( index + ": " + $(this).text() );
+  
+        let value = $(this).text();
+  
+        coinValues.push(value);
+  
+        console.log(coinValues);
+  
+  
+      });
+
+
     });
 
     
 
   }
 
-  function valPopulate() {
 
-    $(".coinValue").each(function(index) {
-
-      console.log ( index + ": " + $(this).text() );
-
-      let value = $(this).text();
-
-      coinValues.push(name);
-
-      console.log(coinValues);
-
-
-    });
-  }
 
   namePopulate();
-  valPopulate();
 
 
   // PURCHASE FUNCTION
