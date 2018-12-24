@@ -7,13 +7,15 @@ $(document).ready(function () {
   Object.keys(JQ_IDs).forEach(key => {
     JQ_IDs[key] = $(`#${key}`);
   });
-  console.log(JQ_IDs);
+  // console.log(JQ_IDs);
 
   JQ_IDs.addCoin_form.submit(function (event) {
     event.preventDefault();
 
     this.classList.remove('was-validated');
 
+    console.log($(this).find("input[name='name']"));
+    console.log($(this).find("input[name='symbol']"));
 
     if (this.checkValidity() === false) {
       this.classList.add('was-validated');
@@ -32,7 +34,6 @@ $(document).ready(function () {
         console.log(args.length, "err results:", ...args);
         this.reset(); // reset the input form
       });
-
   });
 
 });

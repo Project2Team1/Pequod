@@ -44,6 +44,8 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/admin.js"></script>
-{{#if authorized}}
+{{#unless authorized}}
+<script src="/js/admin.loggedout.js"></script>
+{{else}}
 <script src="/js/admin.loggedin.js"></script>
-{{/if}}
+{{/unless}}
