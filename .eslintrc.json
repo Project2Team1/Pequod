@@ -22,16 +22,12 @@
         "no-empty-function": "error",
         "no-multi-spaces": "warn",
         "no-unused-vars": "error",
-        "camelcase": "error",
+        "camelcase": "warn",
         "indent": [
             "error",
             2
         ],
         "linebreak-style": 0,
-        "quotes": [
-            "error",
-            "double"
-        ],
         "semi": [
             "error",
             "always"

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 require("dotenv").config();
 const router = require("express").Router();
 const passport = require("./../config/passport");
@@ -79,13 +81,13 @@ router.post('/login',
   },
 
   //* Post-Authenticate check - with ERRORS
-  (err, req, res, next) => {
+  (err, req, res, _next) => {
     console.log('post-auth, err:\n', err);
     return res.status(500).end();
   },
 
   //* Post-Authenticate check - WITHOUT errors
-  (req, res, next) => {
+  (req, res, _next) => {
     // if (!req.user) {
     //   return res.status(401).end();
     // }

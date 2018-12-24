@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
   const JQ_IDs = {
-      admin_form,
+    admin_form,
   };
 
   Object.keys(JQ_IDs).forEach(key => {
