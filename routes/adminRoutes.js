@@ -1,43 +1,101 @@
 require("dotenv").config();
 const router = require("express").Router();
-
-router.route("/")
-
-  .all((req, res, next) => {
-    console.log("\n\t\t@routes/admin ALL on /admin\n\treq.body:\n", req.body, '\n\t.headers.authoriztion\n', req.headers.authorization);
+const passport = require("./../config/passport");
 
 
-    // console.log("auth ===", req.headers.authorization);
-    if (req.headers.authorization === undefined) {
-      //% When there is no attempt to provide authorization 
-      //% This likely occurs when first accessing the page 
-      //TODO: maybe change what responds
-      return res.render('admin', { authorized: false });
-    }
+router.use(
+  require('morgan')('dev'),
 
-    if (req.headers.authorization !== process.env.AUTH_CHECK) {
-      console.log("\t\t -- does not have a matching admin password");
-      res.set('WWW-Authenticate', 'Basic realm="Administrator\'s Page"'); 
-      return res.status(401).render('admin', { authorized: false });
-    }
-    console.log("\t\t -- does have a matching admin password");
+  //* custom message log
+  (req, res, next) => {
+    console.log(`\n\t\t@routes/admin ${req.method.toUpperCase()} on ${req.baseUrl}${req.path} (${req.originalUrl})`);
+    next();
+  },
+
+  //* No Cache
+  (req, res, next) => {
+    res.append('Surrogate-Control', "no-store");
+    res.append('Cache-Control', "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.append('Pragma', "no-cache");
+    res.append('Expires', "0");
 
     next();
-    // const decode = Buffer.from(req.headers.authorization.split(' ')[1] || '', 'base64').toString('binary');
-    // console.log("decode:\n", decode);
-  })
+  }
+);
 
-  .get((req, res) => {
-    console.log("\n\t\t@routes/admin GET on /admin, req.body:\n", req.body);
-    return res.status(200).render('admin', { authorized: true });
-  })
 
-  .post((req, res) => {
-    console.log("\n\t\t@routes/admin POST on /admin, req.body:\n", req.body);
-    res.send("post admin page");
-  })
+router.get("/", 
+  (req, res) =>
+    res
+      .status(200)
+      .render('admin', { authorized: req.user }));
 
-;
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  return res.redirect('.');
+});
+
+
+router.post('/login', 
+  //* Logout any current
+  (req, res, next) => {
+    req.logout();
+    next();
+  },
+
+  //* Pre-Authenticate (build req.body)
+  (req, res, next) => {
+    console.log("\tPOST req.body:\n", req.body);
+    if (!req.body || !req.body.pw_input) { next("No request body with password from POST"); }
+    req.body.username = process.env.ADMIN_ID;
+    req.body.password = req.body.pw_input;
+    next();
+  },
+
+  //* Authenticate check
+  (req, res, next) => {
+    passport.authenticate(
+      'local', 
+      // { session: false },
+      (error, user, info) => {
+        console.log('auth return:', error, user, info);
+
+        if (error) {
+          console.log("Authentication error:\n", error);
+          return next({ error, info });
+        }
+
+        if (!user) {
+          console.log("Authentication, no user object, info:\n", info);
+          return next();
+        }
+
+        req.login(user, (err) => {
+          if (err) { return next(err); }
+          return next();
+        });
+      })(req, res, next);
+  },
+
+  //* Post-Authenticate check - with ERRORS
+  (err, req, res, next) => {
+    console.log('post-auth, err:\n', err);
+    return res.status(500).end();
+  },
+
+  //* Post-Authenticate check - WITHOUT errors
+  (req, res, next) => {
+    // if (!req.user) {
+    //   return res.status(401).end();
+    // }
+    //? Better just to refresh/redirect, instead of 401?
+    //? Case: while currently admin, but then trying to login POST with BAD credentials
+    //? only 401'ing the response would still show current page with admin sections, eventhough they just tried bad credentials
+
+    return res.redirect('.');
+  }
+); //router.post('/login',
 
 
 module.exports = router;

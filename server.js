@@ -1,84 +1,57 @@
+// #region NPM
 require("dotenv").config();
-var express = require("express");
-var exphbs = require("express-handlebars");
+const express = require("express");
+const exphbs = require("express-handlebars");
+// #endregion NPM
 
-const passport = require('passport');
-const { Strategy } = require('passport-local');
+// #region Local Modules
+const passport = require("./config/passport");
+const db = require("./models");
+// #endregion Local Modules
 
-var db = require("./models");
+const app = express();
+app.disable('x-powered-by'); //% https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 
-var app = express();
-var PORT = process.env.PORT || 3000;
+//* Middleware
+app.use(
+  express.urlencoded({ extended: false }),
+  express.json(),
+  express.static("public"),
 
-// Middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(express.static("public"));
-app.use(require('cookie-parser')());
+  require("cookie-session")(
+    {
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false
+    }),
+  
+  passport.initialize(),
+  passport.session()
+);
 
-app.disable('x-powered-by');
-
-passport.use(new Strategy(
-  function (username, password, cb) {
-    if (username !== 'admin') {
-      return cb(null, false);
-    }
-    if (process.env.ADMIN_PW != password) {
-      return cb(null, false);
-    }
-
-    return cb(null, true);
-  }));
-
-passport.serializeUser(function (user, cb) {
-  cb(null, process.env.ADMIN_ID);
-});
-
-passport.deserializeUser(function (id, cb) {
-  if (id !== process.env.ADMIN_ID) {
-    cb(null, false);
-  }
-  cb(null, true);
-});
-
-
-// Handlebars
+//* View Engine
 app.engine(
   "handlebars",
-  exphbs({
-    defaultLayout: "main"
-  })
+  exphbs({ defaultLayout: "main" })
 );
 app.set("view engine", "handlebars");
 
-
-// Routes
+//* Routes
 require("./routes/apiRoutes")(app);
-app.use("/admin", require("./routes/adminRoutes"));
-app.use("/", require("./routes/htmlRoutes"));
+app.use("/admin" , require("./routes/adminRoutes"));
+app.use("/"      , require("./routes/htmlRoutes" ));
 
 
-var syncOptions = { force: false };
-// If running a test, set syncOptions.force to true
-// clearing the `testdb`
-if (process.env.NODE_ENV === "test") {
-  syncOptions.force = true;
-}
+//* DB/Model Options
+//% If running a test, set syncOptions.force to true, clearing the `testdb`
+const syncOptions = { force: (process.env.NODE_ENV === "test") };
 
 
+//* Sync and Listen!
+const PORT = process.env.PORT || 3000;
+db.sequelize.sync(syncOptions)
+  .then(() => 
+    app.listen(PORT, () => 
+      console.log(`Listening on http://localhost:${PORT}`)));
 
-process.env.AUTH_CHECK = `Basic ${Buffer.from(`admin:${process.env.ADMIN_PW}`, 'binary').toString('base64')}`;
-
-
-// Starting the server, syncing our models ------------------------------------/
-db.sequelize.sync(syncOptions).then(function () {
-  app.listen(PORT, function () {
-    console.log(
-      "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
-      PORT,
-      PORT
-    );
-  });
-});
-
-module.exports = app;
+// module.exports = app;

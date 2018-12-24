@@ -22,14 +22,28 @@
 <br>
 
 <div class="container">
+    {{#unless authorized}}
     <form id="admin_form">
         <label>Password</label>
-        <input name="pw_input" type="password" required>
-    </form> 
-    {{#if authorized}}
-        more admin content
-    {{/if}}
+        <input name="pw_input" type="password" autofocus required>
+    </form>
+    {{else}}
+    <a href="/admin/logout" class="btn btn-warning">Admin Logout</a>
+    <form id="addCoin_form">
+        <label>New Coin Name</label>
+        <input name="name" type="text" onblur="this.value = this.value.trim()" required>
+        <br>
+        <label>New Coin Symbol</label>
+        <input name="symbol" type="text" oninput="this.value = this.value.toUpperCase()" pattern="[A-Za-z]{3}" placeholder="ABC"
+            required>
+        <br>
+        <button class="btn btn-danger" type="submit">+ Coin +</button>
+    </form>
+    {{/unless}}
 </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/admin.js"></script>
+{{#if authorized}}
+<script src="/js/admin.loggedin.js"></script>
+{{/if}}
