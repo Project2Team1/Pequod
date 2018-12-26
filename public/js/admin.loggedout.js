@@ -1,15 +1,15 @@
 $(document).ready(function () {
 
-  const JQ_IDs = {
+  const $ID = {
     admin_form,
   };
 
-  Object.keys(JQ_IDs).forEach(key => {
-    JQ_IDs[key] = $(`#${key}`);
+  Object.keys($ID).forEach(key => {
+    $ID[key] = $(`#${key}`);
   });
-  // console.log(JQ_IDs);
+  // console.log($ID);
 
-  JQ_IDs.admin_form.submit(function(event) {
+  $ID.admin_form.submit(function(event) {
     event.preventDefault();
 
     this.classList.remove('was-validated');
@@ -27,11 +27,13 @@ $(document).ready(function () {
     $.post("/admin/login", formObj)
       .then((...args) => {
         console.log(args.length, "post results:", ...args);
-        location.reload();
       })
       .catch( (...args) => {
         console.log(args.length, "err results:", ...args);
+      })
+      .finally(() => {
         this.reset(); // reset the input form
+        location.reload();
       });
 
   });

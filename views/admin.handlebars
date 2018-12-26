@@ -29,12 +29,22 @@
     </form>
     {{else}}
     <a href="/admin/logout" class="btn btn-warning">Admin Logout</a>
-    <form id="addCoin_form">
+    <form id="newCoin_form">
         <label>New Coin Name</label>
-        <input name="name" type="text" onblur="this.value = this.value.trim()" required>
+        <input
+            id="newCoin_inputName"
+            name="name" type="text"
+            onblur="this.value = this.value.trim()" 
+            autofocus required>
         <br>
         <label>New Coin Symbol</label>
-        <input name="symbol" type="text" oninput="this.value = this.value.toUpperCase()" pattern="[A-Za-z]{3}" placeholder="ABC"
+        <input
+            id="newCoin_inputSymbol"
+            name="symbol" type="text"
+            placeholder="ABC"
+            oninput="this.value = this.value.toUpperCase()"
+            pattern="[A-Za-z]{2,5}" 
+            oninvalid='this.setCustomValidity("Symbol should be 2 to 5 LETTERS")'
             required>
         <br>
         <button class="btn btn-danger" type="submit">+ Coin +</button>

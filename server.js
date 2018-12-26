@@ -37,7 +37,7 @@ app.engine(
 app.set("view engine", "handlebars");
 
 //* Routes
-require("./routes/apiRoutes")(app);
+app.use("/api"   , require("./routes/apiRoutes"));
 app.use("/admin" , require("./routes/adminRoutes"));
 app.use("/"      , require("./routes/htmlRoutes" ));
 
