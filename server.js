@@ -9,8 +9,8 @@ const passport = require("./config/passport");
 const db = require("./models");
 // #endregion Local Modules
 
+
 const app = express();
-app.disable('x-powered-by'); //% https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 
 //* Middleware
 app.use(
@@ -43,7 +43,7 @@ app.use("/"     , require("./routes/htmlRoutes" ));
 
 
 //* DB/Model Options
-//% If running a test, set syncOptions.force to true, clearing the `testdb`
+//% If running a test, set syncOptions.force to true, clearing the test db
 const syncOptions = { force: (process.env.NODE_ENV === "test") };
 
 
