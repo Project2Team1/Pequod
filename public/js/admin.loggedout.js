@@ -27,15 +27,12 @@ $(document).ready(function () {
     $.post("/admin/login", formObj)
       .then((...args) => {
         console.log(args.length, "post results:", ...args);
+        this.reset(); // reset the input form
+        location.reload();
       })
       .catch( (...args) => {
         console.log(args.length, "err results:", ...args);
-      })
-      .finally(() => {
-        this.reset(); // reset the input form
-        location.reload();
       });
-
   });
 
   /*
