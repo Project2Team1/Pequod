@@ -49,10 +49,10 @@ router.post('/login',
   //* Pre-Authenticate (build req.body)
   (req, res, next) => {
     console.log("\tPOST req.body:\n", req.body);
-    if (!req.body || !req.body.pw_input) { next("No request body with password from POST"); }
+    if (!req.body || !req.body.pw_input) { return next("No request body with password from POST"); }
     req.body.username = process.env.ADMIN_ID;
     req.body.password = req.body.pw_input;
-    next();
+    return next();
   },
 
   //* Authenticate check
@@ -93,7 +93,7 @@ router.post('/login',
     // }
     //? Better just to refresh/redirect, instead of 401?
     //? Case: while currently admin, but then trying to login POST with BAD credentials
-    //? only 401'ing the response would still show current page with admin sections, eventhough they just tried bad credentials
+    //? only 401'ing the response would still show current page with admin sections, even though they just tried bad credentials
 
     return res.redirect('.');
   }
