@@ -81,13 +81,13 @@ router.post('/login',
   },
 
   //* Post-Authenticate check - with ERRORS
-  (err, req, res, _next) => {
+  (err, req, res, next) => {
     console.log('post-auth, err:\n', err);
     return res.status(500).end();
   },
 
   //* Post-Authenticate check - WITHOUT errors
-  (req, res, _next) => {
+  (req, res, next) => {
     // if (!req.user) {
     //   return res.status(401).end();
     // }
