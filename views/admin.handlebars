@@ -43,12 +43,11 @@
             id="newCoin_inputSymbol"
             name="symbol" type="text"
             placeholder="ABC"
-            oninput="this.value = this.value.toUpperCase()"
             pattern='[A-Za-z]{2,5}' 
-            oninvalid="this.setCustomValidity(\"Symbol should be 2 to 5 LETTERS\")"
-            oninput="this.setCustomValidity('')"
+            oninvalid="this.setCustomValidity('Symbol should be 2 to 5 LETTERS')"
             required>
         <br>
+        <img id="newCoin_img">
         <button class="btn btn-danger" type="submit">+ Coin +</button>
     </form>
     {{/unless}}
