@@ -26,6 +26,7 @@
     <form id="admin_form">
         <label>Password</label>
         <input name="pw_input" type="password" autofocus required>
+        <input type="submit" class="btn btn-warning" value="Login">
     </form>
     {{else}}
     <a href="/admin/logout" class="btn btn-warning">Admin Logout</a>
@@ -43,8 +44,9 @@
             name="symbol" type="text"
             placeholder="ABC"
             oninput="this.value = this.value.toUpperCase()"
-            pattern="[A-Za-z]{2,5}" 
-            oninvalid='this.setCustomValidity("Symbol should be 2 to 5 LETTERS")'
+            pattern='[A-Za-z]{2,5}' 
+            oninvalid="this.setCustomValidity(\"Symbol should be 2 to 5 LETTERS\")"
+            oninput="this.setCustomValidity('')"
             required>
         <br>
         <button class="btn btn-danger" type="submit">+ Coin +</button>
