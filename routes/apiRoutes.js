@@ -35,13 +35,21 @@ router.post('/coin',
 
       .catch( error => {
         console.log("Create Coin, catch error:\n", error);
+
         //% Validation & Unique errors are 400 Bad Request
-        if ( error.name === 'SequelizeValidationError'
-          || error.name === 'SequelizeUniqueConstraintError') {
-          return res.status(400).json(error.message);
+        res.status(400);
+        if (error.name === 'SequelizeUniqueConstraintError') {
+          const {type, path} = error.errors[0];
+          return res.json({type, path});
         }
+        else if (error.name === 'SequelizeValidationError') {
+          return res.json(error);
+          // return res.json(error.errors[0].message);
+        }
+
         //% Other errors as 500 Internal
-        return res.status(500).json(error);
+        return res.status(500);
+
       });
   }
 );
