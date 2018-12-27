@@ -37,9 +37,9 @@ app.engine(
 app.set("view engine", "handlebars");
 
 //* Routes
-app.use("/api"   , require("./routes/apiRoutes"));
-app.use("/admin" , require("./routes/adminRoutes"));
-app.use("/"      , require("./routes/htmlRoutes" ));
+app.use("/api"  , require("./routes/apiRoutes"  ));
+app.use("/admin", require("./routes/adminRoutes"));
+app.use("/"     , require("./routes/htmlRoutes" ));
 
 
 //* DB/Model Options
@@ -51,7 +51,9 @@ const syncOptions = { force: (process.env.NODE_ENV === "test") };
 const PORT = process.env.PORT || 3000;
 db.sequelize.sync(syncOptions)
   .then(() => 
-    app.listen(PORT, () => 
-      console.log(`Listening on http://localhost:${PORT}`)));
+    app.listen(PORT, () => {
+      console.log('NODE_ENV:',process.env.NODE_ENV);
+      console.log(`Listening on http://localhost:${PORT}`);
+    }));
 
 // module.exports = app;
