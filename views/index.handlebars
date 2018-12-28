@@ -36,14 +36,77 @@
         </p>
       </div>
       <div class="col-lg-1"></div>
+
+      
+    <br><br>
+
     </div>
 
     <br><br>
 
 
-    <div class="row">
+    <div class="row" id="secondBox">
       <div class="col-md-6" id="coinBox">
+
+      <br>
         <p id="coinHeader">Cryptocoins</p>
+        <br><br>
+        <ul class="list-group">
+          {{#each coins}}
+          <li data-id="coin-{{this.symbol}}" class="row align-content-center">
+          <div class="col" id="coinIcon">
+            <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
+            <a href="#" class="coinName">{{this.name}}</a>
+          </div>
+          <p class="col" id="nonsense">$ {{this.value}}</p>
+          <div class="col">
+            <button class="btn btn-danger  delete" id="minus{{this.id}}">-</button>
+            <button class="btn btn-success delete" id="plus{{this.id}}">+</button>
+            <strong><div id="transTotal{{this.id}}" class="purchaseNumber" style="position: relative; left: 30px;">0</div></strong>
+          </div>
+        </li>
+          {{else}}
+          <p>No Coins!?</p>
+          {{/each}}
+        </ul>
+
+        <br><br>
+
+        <!-- Trigger/Open The Modal -->
+        <button id="confirmTrans">Confirm Purchase</button>
+
+      </div>
+
+
+      <div class="col-md-6">
+
+        <br>
+
+        <div class="card" id="bankCard" style="width: 18rem; text-align: center;">
+          <div class="card-body">
+            <h5 class="card-title">Finance Report</h5>
+            <p class="card-text">Use this to track your portfolio's performance.</p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><span class="bankHead">Current Balance:</span> <span id="currentBalance"></span> </li>
+            <li class="list-group-item"><span class="bankHead">Starting Balance:</span> <span id="startingBalance"></span> </li>
+            <li class="list-group-item"><span class="bankHead">Balance spent: </span> <span id="balanceSpent"></span> </li>
+            <li class="list-group-item"><span class="bankHead">Net Change: </span> <span id="netChange"></span> </li>
+          </ul>
+      </div>
+
+      
+    <br><br>
+        
+      </div>
+
+    </div>
+
+    <br><br>
+    <div class = "row">
+      <div class="col-md-12" id="coinBank">
+        <p id="coinHeader" style="position: relative; left: -75px;">Coin Bank</p>
+        <br><br>
         <ul class="list-group">
           {{#each coins}}
           <li data-id="coin-{{this.symbol}}" class="row align-content-center">
@@ -53,8 +116,9 @@
           </div>
           <p class="col">$ {{this.value}}</p>
           <div class="col">
-            <button class="btn btn-danger  delete">-</button>
-            <button class="btn btn-success delete">+</button>
+            <button class="btn btn-danger  delete" id="minus{{this.id}}">-</button>
+            <button class="btn btn-success delete" id="plus{{this.id}}">+</button>
+            <strong><div id="transTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
           </div>
         </li>
           {{else}}
@@ -62,97 +126,58 @@
           {{/each}}
         </ul>
 
-        <button id='getPrices'>Get Prices</button>
-      </div>
-
-
-      <div class="col-md-6">
-
-        <div class="card" id="bankCard" style="width: 18rem; text-align: center;">
-          <div class="card-body">
-            <h5 class="card-title">Finance Report</h5>
-            <p class="card-text">Use this to track your portfolio's performance.</p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><span class="bankHead">Current Balance:</span> Placeholder </li>
-            <li class="list-group-item"><span class="bankHead">Starting Balance:</span> Placeholder </li>
-            <li class="list-group-item"><span class="bankHead">Balance spent: </span> Placeholder </li>
-            <li class="list-group-item"><span class="bankHead">Net Change: </span> Placeholder </li>
-          </ul>
-      </div>
-        
-      </div>
-
-      
+      <br>
+      <button id="confirmSale">Confirm Sale</button>
+      <br><br>
     </div>
+
+    
     
     
     <br><br><br>
 
   </div>
 
+
+  <!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <br>
+    <p style="text-align: center;"><strong>Remember,</strong> the goal for many who work with cryptocurrencies is to play the market and earn a profit. Try to buy coins at a low price, and sell them when you think the price is at its peak! </p>
+    <div class="container" id="modalContainer">
+    <br>
+    <ul class="list-group">
+          {{#each coins}}
+          <li data-id="coin-{{this.symbol}}" class="row align-content-center">
+          <div class="col" id="coinIcon">
+            <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
+            <a href="#">{{this.name}}</a>
+          </div>
+          <p class="col">$ {{this.value}}</p>
+          <div class="col">
+            <strong><div id="modalTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
+          </div>
+        </li>
+          {{else}}
+          <p>No Coins!?</p>
+          {{/each}}
+        </ul> 
+
+        <button id="finalTrans">Finalize Purchase</button>
+    </div>
+  </div>
+
 </div>
 
-<style>
-
-  html {
-    height: 100vh;
-  }
-  body {
-
-    height: 100vh;
-    background-image: url("./images/pink_rice.png")
-  }
-
-  .container {
-
-    background-color: #F0F0F0;
-    
-  }
-
-  #startBlurb {
-    border-color: black;
-    border-style: solid;
-    text-align:center;
-  }
-
-  #coinHeader {
-    text-align: center;
-    font-family:Arial, Helvetica, sans-serif;
-    text-shadow: 3px 2px rgba(212, 210, 210, 0.664);
-    font-size:20pt;
-  }
-
-  #intro {
-    font-size: 18pt;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: bold;
-  }
 
 
-  #getPrices {
 
-    position:absolute;
-    left: 45%;
-  }
+</div>
 
-  #coinBox {
 
-    border-right: black solid 2px;
-    position: relative;
-    left: 10px;
-  }
-
-  #bankCard {
-    position: relative;
-    left: 100px;
-  }
- 
-
-  #moneyTracker {
-    color: black;
-  }
-</style>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>
