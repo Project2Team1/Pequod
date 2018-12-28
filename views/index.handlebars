@@ -158,13 +158,15 @@
           </div>
           <p class="col">$ {{this.value}}</p>
           <div class="col">
-            <strong><div id="transTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
+            <strong><div id="modalTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
           </div>
         </li>
           {{else}}
           <p>No Coins!?</p>
           {{/each}}
         </ul> 
+
+        <button id="finalTrans">Finalize Purchase</button>
     </div>
   </div>
 

@@ -146,9 +146,12 @@ $(document).ready(function () {
 
 
   namePopulate();
-  const calculateTax = price => +(price * 1.08).toFixed(2)
 
-  module.exports = calculateTax;
+
+  // coin bank init
+
+  let coinsBank = [];
+
 
   // PURCHASE FUNCTION
 
@@ -156,11 +159,37 @@ $(document).ready(function () {
 
     // For each coin
 
-    // subtract price from current balance
+    for (i = 0; i < coinNames.length; i++) {
 
-    // add coin to coin bank
+      // Subtract price from current balance
 
-    // update curre
+      currentBalance = currentBalance - coinValues[i];
+
+      // add coin to coin bank
+
+      let deposit = {
+        
+        name: coinNames[i],
+        value: coinValues[i],
+        number: coin1
+      };
+
+      coinsBank.push(deposit);
+
+      console.log(coinsBank);
+
+    }
+
+    for (i=0; i<coinNames.length; i++) {
+      let j = i + 1;
+
+      // change modal values
+
+      $("#modalTotal" + j).text(0);
+      $("transTotal" + j).text(0);
+
+    }
+
   }
 
 
@@ -179,6 +208,21 @@ $(document).ready(function () {
 
   // When the user clicks on the button, open the modal 
   btn.onclick = function() {
+
+    for (i=0; i<coinNames.length; i++) {
+      let j = i + 1;
+
+      // change modal values
+
+      let value = "#transTotal" + j;
+
+      let purchaseNum = $(value).text();
+
+      console.log(value);
+
+      $("#modalTotal" + j).text(purchaseNum);
+
+    }
     modal.style.display = "block";
   };
 
@@ -194,5 +238,15 @@ $(document).ready(function () {
     }
   };
 
+
+  
+  $("#finalTrans").click(function() {
+
+    console.log("clicked!");
+    buyCoins();
+
+
+
+  });
 
 });
