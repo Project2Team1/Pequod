@@ -21,17 +21,13 @@
         "eqeqeq": "error",
         "no-empty-function": "error",
         "no-multi-spaces": "warn",
-        "no-unused-vars": "error",
-        "camelcase": "error",
+        "no-unused-vars": "warn",
+        "camelcase": "warn",
         "indent": [
             "error",
             2
         ],
         "linebreak-style": 0,
-        "quotes": [
-            "error",
-            "double"
-        ],
         "semi": [
             "error",
             "always"

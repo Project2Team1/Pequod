@@ -1,47 +1,59 @@
+// #region NPM
 require("dotenv").config();
-var express = require("express");
-var exphbs = require("express-handlebars");
+const express = require("express");
+const exphbs = require("express-handlebars");
+// #endregion NPM
 
-var db = require("./models");
+// #region Local Modules
+const passport = require("./config/passport");
+const db = require("./models");
+// #endregion Local Modules
 
-var app = express();
-var PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(express.static("public"));
+const app = express();
 
-// Handlebars
+//* Middleware
+app.use(
+  express.urlencoded({ extended: false }),
+  express.json(),
+  express.static("public"),
+
+  require("cookie-session")(
+    {
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false
+    }),
+  
+  passport.initialize(),
+  passport.session()
+);
+
+//* View Engine
 app.engine(
   "handlebars",
-  exphbs({
-    defaultLayout: "main"
-  })
+  exphbs({ defaultLayout: "main" })
 );
 app.set("view engine", "handlebars");
 
-// Routes
-require("./routes/apiRoutes")(app);
-require("./routes/htmlRoutes")(app);
+//* Routes
+app.use("/api"  , require("./routes/apiRoutes"  ));
+app.use("/admin", require("./routes/adminRoutes"));
+app.use("/"     , require("./routes/htmlRoutes" ));
 
-var syncOptions = { force: false };
 
-// If running a test, set syncOptions.force to true
-// clearing the `testdb`
-if (process.env.NODE_ENV === "test") {
-  syncOptions.force = true;
-}
+//* DB/Model Options
+//% If running a test, set syncOptions.force to true, clearing the test db
+const syncOptions = { force: (process.env.NODE_ENV === "test") };
 
-// Starting the server, syncing our models ------------------------------------/
-db.sequelize.sync(syncOptions).then(function() {
-  app.listen(PORT, function() {
-    console.log(
-      "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
-      PORT,
-      PORT
-    );
-  });
-});
 
-module.exports = app;
+//* Sync and Listen!
+const PORT = process.env.PORT || 3000;
+db.sequelize.sync(syncOptions)
+  .then(() => 
+    app.listen(PORT, () => {
+      console.log('NODE_ENV:',process.env.NODE_ENV);
+      console.log(`Listening on http://localhost:${PORT}`);
+    }));
+
+// module.exports = app;
