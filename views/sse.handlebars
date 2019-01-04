@@ -1,0 +1,25 @@
+<h1>Realtime Demo</h1>
+<ul id="live-updates"></ul>
+<script>
+  var live = {
+    init: function () {
+      var source = new EventSource("http://localhost:8081/api/updates");
+      source.addEventListener("message", function (event) {
+        var data = jQuery.parseJSON(event.data);
+        live.addItem(data.update);
+      }, false);
+    },
+
+    addItem(data) {
+      $(live.constructItem(data)).hide().prependTo("#live-updates").fadeIn(1000);
+    },
+
+    constructItem(data) {
+      return "<li>" + data + "</li>";
+    }
+  };
+
+  $(document).ready(function () {
+    live.init();
+  });
+</script>
