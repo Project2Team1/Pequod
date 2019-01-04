@@ -1,5 +1,8 @@
 //% http://bayn.es/real-time-web-applications-with-server-sent-events-pt-1/
 //% https://stackoverflow.com/questions/34657222/how-to-use-server-sent-events-in-express-js
+//% https://nodejs.org/api/events.html#events_class_eventemitter
+//% https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
+
 
 const EventEmitter = require('events');
 const express = require('express');
