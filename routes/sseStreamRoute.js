@@ -1,27 +1,59 @@
-//% http://bayn.es/real-time-web-applications-with-server-sent-events-pt-1/
-//% https://stackoverflow.com/questions/34657222/how-to-use-server-sent-events-in-express-js
-//% https://nodejs.org/api/events.html#events_class_eventemitter
-//% https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
-
+const router = require('express').Router();
 
 const EventEmitter = require('events');
-const express = require('express');
-const app = express();
+const Stream = new EventEmitter();
 
-const Stream = new EventEmitter(); // my event emitter instance
+const moment = require('moment');
 
-app.get('/stream', function (request, response) {
-  response.writeHead(200, {
-    'Content-Type': 'text/event-stream',
-    'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive'
-  });
 
-  Stream.on("push", function (event, data) {
-    response.write("event: " + String(event) + "\n" + "data: " + JSON.stringify(data) + "\n\n");
+router.use(
+  require('morgan')('dev'),
+
+  //* custom message log
+  (req, res, next) => {
+    console.log(`\n\t\t@routes/stream ${req.method.toUpperCase()} on ${req.baseUrl}${req.path} (${req.originalUrl})`);
+    next();
+  },
+
+  (req, res, next) => {
+    res.set({
+      'Content-Type' : 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection'   : 'keep-alive'
+    });
+
+    next();
+  }
+);
+
+
+router.get('/', (req, res) => {
+  res.status(200);
+  
+  const callback = (event, data) => {
+    res.write(
+      [
+        "event: " + String(event),
+        "data: " + JSON.stringify(data),
+        "\n"
+      ].join('\n')); //% https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format
+  };
+
+  Stream.on('push', callback);
+
+  req.on('close', function() {
+    console.log('closing');
+    Stream.off('push', callback);
+    res.end();
   });
 });
 
 setInterval(function () {
-  Stream.emit("push", "test", { msg: "admit one" });
-}, 10000);
+  const t = moment().format("MMM do h:mm:ss a");
+  console.log("emitting...", t, Stream.listenerCount('push'), Stream.listeners('push'));
+
+  Stream.emit("push", "test", { msg: t });
+}, 5678);
+
+
+module.exports = router;

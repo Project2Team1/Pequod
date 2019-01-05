@@ -33,6 +33,12 @@ router.get("/", async function(req, res) {
   //   });
 });
 
+
+router.get("/test", (req, res)=>{
+  res.render("sseTest",{});
+});
+
+
 // Render 404 page for any unmatched routes
 router.get("*", function(req, res) {
   return res.render("404");
