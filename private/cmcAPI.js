@@ -8,20 +8,20 @@ require('dotenv').config();
 // });
 
 module.exports = {
-  getLatestQuotes() {
+  getLatestQuotes(coinsArray) {
     return require('axios')
       .get('https://jsonplaceholder.typicode.com/posts/1', {})
 
     // return cmcAPI.get('/info',
     //   {
     //     params: {
-    //       symbol: ['BTC','ETH','XRP','XLM','LTC'].toString()
+    //       symbol: coinsArray.toString()
     //     }
     //   })
     // return cmcAPI.get('/quotes/latest',
     //   {
     //     params: {
-    //       symbol: ['BTC','ETH','XRP','XLM','LTC'].toString()
+    //       symbol: coinsArray.toString()
     //     }
     //   })
 
@@ -33,7 +33,7 @@ module.exports = {
         // return {quotes: data.data}; //% check documentation link at top (or postman examples) for responses structure
       })
 
-      .catch( ({response, request, message, config}={} ) => {
+      .catch(({ response, request, message, config } = {}) => {
         console.log("CMC GET error");
         if (response) {
           // The request was made and the server responded with a status code that falls out of the range of 2xx

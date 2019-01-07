@@ -3,6 +3,8 @@ const moment = require('moment');
 const EventEmitter = require('events');
 const sseEmitter = new EventEmitter();
 
+const db = require("./../models");
+
 const { getLatestQuotes } = require('./../private/cmcAPI');
 
 //% emitter needs at least one listener for 'error' events or else a throw will exit Node process
@@ -12,8 +14,13 @@ const SECONDS_TO_CALL = 60;
 
 setInterval(
   // setTimeout(
-  () => {
-    getLatestQuotes()
+  async () => {
+    let coins = 
+      db.CryptoCoin
+        .findAll({})
+        .then(coinResults => coinResults.map(coin => coin.symbol));
+
+    getLatestQuotes(await coins)
       .then(({ quotes } = {}) => {
         console.log("\n\n", quotes, "\n\n");
 
@@ -23,11 +30,12 @@ setInterval(
 
         quotes =
           {
-            BTC: 4037.78993712 + Math.random() * 800 - 400,
-            ETH: 153.145912577 + Math.random() *  30 -  15,
-            LTC: 37.7778238441 + Math.random() *   8 -   4,
-            XLM: 0.123514908275+ Math.random() * 0.0246 - 0.0123,
-            XRP: 0.366287085377+ Math.random() * 0.0732 - 0.0366
+             BTC: 4037.78993712  + Math.random() * 800 - 400,
+             ETH: 153.145912577  + Math.random() *  30 -  15,
+             LTC: 37.7778238441  + Math.random() *   8 -   4,
+             XLM: 0.123514908275 + Math.random() * 0.0246 - 0.0123,
+             XRP: 0.366287085377 + Math.random() * 0.0732 - 0.0366,
+            DOGE: 0.0022845094675+ Math.random() * 0.0004 - 0.0002
           };
 
         const dataToEmit = {
