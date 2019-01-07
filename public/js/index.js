@@ -47,9 +47,9 @@ $(document).ready(function () {
   // Initialize functions for changing transTotal values
 
 
+  let coin0 = 0;
   let coin1 = 0;
   let coin2 = 0;
-  let coin3 = 0;
 
 
 
@@ -57,45 +57,45 @@ $(document).ready(function () {
 
   $("#minus1").click(function() {
 
-    coin1--; 
-    $("#transTotal1").text(coin1);
+    coin0--; 
+    $("#transTotal1").text(coin0);
 
   });
 
   $("#plus1").click(function() {
 
-    coin1++;
-    $("#transTotal1").text(coin1);
+    coin0++;
+    $("#transTotal1").text(coin0);
 
   });
 
   $("#minus2").click(function() {
 
-    coin2 --; 
+    coin1 --; 
 
-    $("#transTotal2").text(coin2);
+    $("#transTotal2").text(coin1);
 
   });
 
   $("#plus2").click(function() {
 
-    coin2 ++;
-    $("#transTotal2").text(coin2);
+    coin1 ++;
+    $("#transTotal2").text(coin1);
 
   });
 
   $("#minus3").click(function() {
 
-    coin3 --; 
+    coin2 --; 
 
-    $("#transTotal3").text(coin3);
+    $("#transTotal3").text(coin2);
 
   });
 
   $("#plus3").click(function() {
 
-    coin3 ++;
-    $("#transTotal3").text(coin3);
+    coin2 ++;
+    $("#transTotal3").text(coin2);
 
   });
 
@@ -150,7 +150,33 @@ $(document).ready(function () {
 
   // coin bank init
 
+  let coinsArray = [];
   let coinsBank = [];
+
+
+  // populate coinBank on boot
+
+  function bankInit() {
+
+    for (i = 0; i < coinNames.length; i++) {
+
+      let name = coinNames[i];
+      let value = coinValues[i];
+
+      let initDeposit = {
+        name: name,
+        value: value,
+        number: 0
+      };
+
+      coinsBank.push(initDeposit);
+    }
+
+    console.log("bank init");
+    console.log(coinsBank);
+  }
+
+  bankInit();
 
 
   // PURCHASE FUNCTION
@@ -161,22 +187,20 @@ $(document).ready(function () {
 
     for (i = 0; i < coinNames.length; i++) {
 
-      // Subtract price from current balance
+      let j = i + 1;
 
-      currentBalance = currentBalance - coinValues[i];
+      let purchase = coinsBank[i].number ; 
 
-      // add coin to coin bank
+      console.log("Old bank number: " + purchase);
 
-      let deposit = {
-        
-        name: coinNames[i],
-        value: coinValues[i],
-        number: coin1
-      };
+      coinsBank[i].number = purchase + parseInt($("#transTotal" + j).text());
 
-      coinsBank.push(deposit);
+      console.log(coinsBank[i].number);
 
-      console.log(coinsBank);
+
+
+      // subtract coin price from current balance
+
 
     }
 
@@ -186,7 +210,15 @@ $(document).ready(function () {
       // change modal values
 
       $("#modalTotal" + j).text(0);
-      $("transTotal" + j).text(0);
+      $("#transTotal" + j).text(0);
+
+      coin0 = 0;
+      coin1 = 0;
+      coin2 = 0;
+
+      $("#bankTotal" + j).text(coinsBank[i].number);
+
+      modal.style.display = "none";
 
     }
 
