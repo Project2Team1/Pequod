@@ -7,11 +7,11 @@ let mostRecentQuote = null;
 router.use(
   require('morgan')('dev'),
 
-  //* custom message log
+  /* //* custom message log
   (req, res, next) => {
     console.log(`\n\t\t@routes/stream ${req.method.toUpperCase()} on ${req.baseUrl}${req.path} (${req.originalUrl})`);
     next();
-  },
+  }, */
 
   //* SSE headers
   (req, res, next) => {
@@ -26,7 +26,7 @@ router.use(
 
 
 router.get('/', (req, res) => {
-  
+
   res.status(200);
 
   const resWriteCB = (event, data) => {
@@ -41,7 +41,7 @@ router.get('/', (req, res) => {
     });
   };
 
-  // provide most recent quote on first GET access
+  // provide most recent quote as first write of GET access
   resWriteCB('latestQuotes', mostRecentQuote);
 
   // listen for new quotes emitted
@@ -49,7 +49,6 @@ router.get('/', (req, res) => {
 
   // stop the listener if client stops connection
   req.on('close', () => {
-    // console.log('closing');
     sseEmitter.off('cmc', resWriteCB);
     res.end();
   });

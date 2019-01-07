@@ -24,13 +24,6 @@ router.get("/", async function(req, res) {
     // markets : await markets
   });
 
-  // db.CryptoCoin.findAll({}).then(findAllCryptoCoinResults => {
-  //   findAllCryptoCoinResults.forEach( (coin, index) => {
-  //     console.log(index);
-  //     for (k in coin) {
-  //       console.log(k);
-  //     }
-  //   });
 });
 
 router.get("/test", async function(req, res) {
@@ -49,13 +42,6 @@ router.get("/test", async function(req, res) {
     // markets : await markets
   });
 
-  // db.CryptoCoin.findAll({}).then(findAllCryptoCoinResults => {
-  //   findAllCryptoCoinResults.forEach( (coin, index) => {
-  //     console.log(index);
-  //     for (k in coin) {
-  //       console.log(k);
-  //     }
-  //   });
 });
 
 // Render 404 page for any unmatched routes

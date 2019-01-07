@@ -8,11 +8,11 @@ const passport = require("./../config/passport");
 router.use(
   require('morgan')('dev'),
 
-  //* custom message log
+  /* //* custom message log
   (req, res, next) => {
     console.log(`\n\t\t@routes/admin ${req.method.toUpperCase()} on ${req.baseUrl}${req.path} (${req.originalUrl})`);
     next();
-  },
+  }, */
 
   //* No Cache
   (req, res, next) => {
@@ -48,7 +48,6 @@ router.post('/login',
 
   //* Pre-Authenticate (build req.body)
   (req, res, next) => {
-    console.log("\tPOST req.body:\n", req.body);
     if (!req.body || !req.body.pw_input) { return next("No request body with password from POST"); }
     req.body.username = process.env.ADMIN_ID;
     req.body.password = req.body.pw_input;
@@ -61,7 +60,7 @@ router.post('/login',
       'local', 
       // { session: false },
       (error, user, info) => {
-        console.log('auth return:', error, user, info);
+        // console.log('auth return:', error, user, info);
 
         if (error) {
           console.log("Authentication error:\n", error);

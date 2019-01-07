@@ -10,7 +10,6 @@ $(document).ready(function () {
   Object.keys($ID).forEach(key => {
     $ID[key] = $(`#${key}`);
   });
-  // console.log($ID);
 
 
   $ID.newCoin_inputSymbol.on('input', function() {
@@ -18,11 +17,9 @@ $(document).ready(function () {
 
     const symbol = this.value;
     if (/^[A-Z]{2,5}$/.test(symbol)) {
-      console.log("tested");
       this.setCustomValidity('');
       $ID.newCoin_img
         .one("error", function() {
-          console.log("error one");
           $(this).attr({src: './../images/cryptocurrency-icons/generic@2x.png'});
         })
         .attr({src: `./../images/cryptocurrency-icons/${symbol}@2x.png`});
@@ -54,7 +51,7 @@ $(document).ready(function () {
     $.post("/api/coin", {name, symbol})
 
       .then((...args) => {
-        console.log(args.length, "post results:", ...args);
+        // console.log(args.length, "post results:", ...args);
         //TODO: success feedback
         this.reset();
         $ID.newCoin_img.attr({src: null});
