@@ -1,18 +1,32 @@
 <h1>Real-time Demo</h1>
-<ul id="live-updates">Start...</ul>
+<ul id="live-updates">Start??...</ul>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script>
   $(document).ready(function () {
 
     new EventSource('/stream')
-      .addEventListener('test',
-        ({data}={}) => 
-          $(`<li>${JSON.parse(data).msg}</li>`)
+      .addEventListener('latestQuotes',
+        ({ data } = {}) => {
+          data = JSON.parse(data);
+          console.log(data);
+
+          {{!-- let text = data.quotes.map(({ userId, id, title }) =>
+            `${userId}, ${id}, ${title.substring(0, 5)}`).join(' '); 
+          let out = `${data.time}&nbsp;${text}`; --}}
+           
+
+          let out = 
+            Object.entries(data.quotes)
+              .map( ([symbol, quote]) => `${symbol}: ${quote}`)
+              .join(', ');
+
+          $(`<li>${out}</li>`)
             .hide()
             .prependTo('#live-updates')
             .fadeIn(1000);
+        }
       );
 
   });
