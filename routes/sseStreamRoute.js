@@ -31,12 +31,14 @@ router.get('/', (req, res) => {
   res.status(200);
   
   const callback = (event, data) => {
-    res.write(
-      [
-        "event: " + String(event),
-        "data: " + JSON.stringify(data),
-        "\n"
-      ].join('\n')); //% https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format
+    setImmediate(() => { // let listeners be called async 
+      res.write(
+        [
+          "event: " + String(event),
+          "data: " + JSON.stringify(data),
+          "\n"
+        ].join('\n')); //% https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format
+    });
   };
 
   Stream.on('push', callback);
