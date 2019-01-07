@@ -1,16 +1,16 @@
 require('dotenv').config();
 
-//% https://coinmarketcap.com/api/documentation/v1
-const cmcAPI = require('axios').create({
-  baseURL: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency',
-  headers: { 'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY },
-  timeout: 1000 * 10
-});
+// //% https://coinmarketcap.com/api/documentation/v1
+// const cmcAPI = require('axios').create({
+//   baseURL: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency',
+//   headers: { 'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY },
+//   timeout: 1000 * 10
+// });
 
 module.exports = {
   getLatestQuotes() {
-    // return require('axios')
-    //   .get('https://jsonplaceholder.typicode.com/posts/', {})
+    return require('axios')
+      .get('https://jsonplaceholder.typicode.com/posts/1', {})
 
     // return cmcAPI.get('/info',
     //   {
@@ -18,18 +18,19 @@ module.exports = {
     //       symbol: ['BTC','ETH','XRP','XLM','LTC'].toString()
     //     }
     //   })
-    return cmcAPI.get('/quotes/latest',
-      {
-        params: {
-          symbol: ['BTC','ETH','XRP','XLM','LTC'].toString()
-        }
-      })
+    // return cmcAPI.get('/quotes/latest',
+    //   {
+    //     params: {
+    //       symbol: ['BTC','ETH','XRP','XLM','LTC'].toString()
+    //     }
+    //   })
 
       .then(({ data, status, statusText, headers, config } = {}) => {
         // console.log(status, statusText, headers, config);
 
+        data = data; return { quotes: data };
         // data = data.slice(0,3); return { quotes: data };
-        return {quotes: data.data}; //% check documentation link at top (or postman examples) for responses structure
+        // return {quotes: data.data}; //% check documentation link at top (or postman examples) for responses structure
       })
 
       .catch( ({response, request, message, config}={} ) => {

@@ -8,37 +8,48 @@ const { getLatestQuotes } = require('./../private/cmcAPI');
 //% emitter needs at least one listener for 'error' events or else a throw will exit Node process
 sseEmitter.on('error', (err) => console.error("EventEmitter error\n", err));
 
-// setInterval(
-setTimeout(
+const SECONDS_TO_CALL = 60;
+
+setInterval(
+  // setTimeout(
   () => {
     getLatestQuotes()
-      .then( ({quotes}={} ) => {
+      .then(({ quotes } = {}) => {
         console.log("\n\n", quotes, "\n\n");
 
-        Object.entries(quotes).forEach( ([symbol, {quote}={}]) => {
-          quotes[symbol] = quote.USD.price || 0; // replaces the (value) object associated with each symbol (key) to only its quote.USD.price
-        });
+        // Object.entries(quotes).forEach( ([symbol, {quote}={}]) => {
+        //   quotes[symbol] = quote.USD.price || 0; // replaces the (value) object associated with each symbol (key) to only its quote.USD.price
+        // });
 
-        const payload = {
+        quotes =
+          {
+            BTC: 4037.78993712 + Math.random() * 800 - 400,
+            ETH: 153.145912577 + Math.random() *  30 -  15,
+            LTC: 37.7778238441 + Math.random() *   8 -   4,
+            XLM: 0.123514908275+ Math.random() * 0.0246 - 0.0123,
+            XRP: 0.366287085377+ Math.random() * 0.0732 - 0.0366
+          };
+
+        const dataToEmit = {
           time: moment().format("MMM Do h:mm:ss a"),
-          quotes
+          quotes,
         };
 
         console.log(
           "emitting...",
-          payload,
+          dataToEmit,
           sseEmitter.listenerCount('cmc'),
           sseEmitter.listeners('cmc'));
 
-        sseEmitter.emit('cmc', 'latestQuotes', payload);
+        sseEmitter.emit('cmc', 'latestQuotes', dataToEmit);
       })
 
-      .catch( ({ response, request, message }={} ) => {
-        console.log("Error message caught from retrieving new CMC data\n\t",  message);
+      .catch(({ response, request, message } = {}) => {
+        console.log("Error message caught from retrieving new CMC data\n\t", message);
       })
     ; // getLatestQuotes()
   },
 
-  5678); // setInterval
+  1000 * SECONDS_TO_CALL); // setInterval
 
 module.exports = sseEmitter;
