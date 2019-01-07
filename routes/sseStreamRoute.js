@@ -1,10 +1,6 @@
 const router = require('express').Router();
 
-const EventEmitter = require('events');
-const Stream = new EventEmitter();
-
-const moment = require('moment');
-
+const sseEmitter = require('./../private/sseEmitter');
 
 router.use(
   require('morgan')('dev'),
@@ -15,13 +11,13 @@ router.use(
     next();
   },
 
+  //* SSE headers
   (req, res, next) => {
     res.set({
       'Content-Type' : 'text/event-stream',
       'Cache-Control': 'no-cache',
       'Connection'   : 'keep-alive'
     });
-
     next();
   }
 );
@@ -30,8 +26,8 @@ router.use(
 router.get('/', (req, res) => {
   res.status(200);
   
-  const callback = (event, data) => {
-    setImmediate(() => { // let listeners be called async 
+  const resWriteCB = (event, data) => {
+    setImmediate(() => { // lets listeners be called async 
       res.write(
         [
           "event: " + String(event),
@@ -41,21 +37,14 @@ router.get('/', (req, res) => {
     });
   };
 
-  Stream.on('push', callback);
+  sseEmitter.on('cmc', resWriteCB);
 
-  req.on('close', function() {
-    console.log('closing');
-    Stream.off('push', callback);
+  req.on('close', () => {
+    // console.log('closing');
+    sseEmitter.off('cmc', resWriteCB);
     res.end();
   });
 });
-
-setInterval(function () {
-  const t = moment().format("MMM do h:mm:ss a");
-  console.log("emitting...", t, Stream.listenerCount('push'), Stream.listeners('push'));
-
-  Stream.emit("push", "test", { msg: t });
-}, 5678);
 
 
 module.exports = router;
