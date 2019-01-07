@@ -2,6 +2,8 @@ const router = require('express').Router();
 
 const sseEmitter = require('./../private/sseEmitter');
 
+let mostRecentQuote = null;
+
 router.use(
   require('morgan')('dev'),
 
@@ -24,9 +26,11 @@ router.use(
 
 
 router.get('/', (req, res) => {
-  res.status(200);
   
+  res.status(200);
+
   const resWriteCB = (event, data) => {
+    mostRecentQuote = data;
     setImmediate(() => { // lets listeners be called async 
       res.write(
         [
@@ -37,13 +41,19 @@ router.get('/', (req, res) => {
     });
   };
 
+  // provide most recent quote on first GET access
+  resWriteCB('latestQuotes', mostRecentQuote);
+
+  // listen for new quotes emitted
   sseEmitter.on('cmc', resWriteCB);
 
+  // stop the listener if client stops connection
   req.on('close', () => {
     // console.log('closing');
     sseEmitter.off('cmc', resWriteCB);
     res.end();
   });
+
 });
 
 
