@@ -1,27 +1,19 @@
 <h1>Real-time Demo</h1>
 <ul id="live-updates">Start...</ul>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"/>
+
 <script>
-  var live = {
-    init: function () {
-      var source = new EventSource("/stream");
-      source.addEventListener("test", function (event) {
-        console.log("here!");
-        var data = JSON.parse(event.data);
-        live.addItem(data.msg);
-      }, false);
-    },
-
-    addItem(data) {
-      $(live.constructItem(data)).hide().prependTo("#live-updates").fadeIn(1000);
-    },
-
-    constructItem(data) {
-      return "<li>" + data + "</li>";
-    }
-  };
-
   $(document).ready(function () {
-    live.init();
+
+    new EventSource('/stream')
+      .addEventListener('test',
+        ({data}={}) => 
+          $(`<li>${JSON.parse(data).msg}</li>`)
+            .hide()
+            .prependTo('#live-updates')
+            .fadeIn(1000);
+      );
+
   });
 </script>
