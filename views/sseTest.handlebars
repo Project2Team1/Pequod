@@ -45,9 +45,9 @@
     document.querySelectorAll("#rtList .rtValue").forEach(ele => {
       rtElements[ele.dataset.id] = ele;
     });
-    console.log(rtElements);
+    {{!-- console.log(rtElements); --}}
 
-    let updateTimer = {id: null};
+    let updateTimer = {id: NaN};
     resetTimer(updateTimer);
 
     new EventSource('/stream')
@@ -59,7 +59,7 @@
             Object.entries(data.quotes).forEach(([symbol, quote]) => {
               $(rtElements[symbol])
                 .hide()
-                .text(`$ ${quote.toFixed(3)}`)
+                .text(`$ ${quote.toFixed(4)}`)
                 .fadeIn(1500);
             });
           }
