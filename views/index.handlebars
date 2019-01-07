@@ -49,7 +49,8 @@
       <div class="col-md-6" id="coinBox">
 
       <br>
-        <p id="coinHeader">Cryptocoins</p>
+        <p id="coinHeader">Transaction Panel</p>
+        <p style="text-align: center">Use this panel to buy and sell your coins.</p>
         <br><br>
         <ul class="list-group">
           {{#each coins}}
@@ -73,7 +74,7 @@
         <br><br>
 
         <!-- Trigger/Open The Modal -->
-        <button id="confirmTrans">Confirm Purchase</button>
+        <button id="confirmTrans">Confirm Transaction</button>
 
       </div>
 
@@ -116,9 +117,7 @@
           </div>
           <p class="col">$ {{this.value}}</p>
           <div class="col">
-            <button class="btn btn-danger  delete" id="minus{{this.id}}">-</button>
-            <button class="btn btn-success delete" id="plus{{this.id}}">+</button>
-            <strong><div id="transTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
+            <strong><div id="bankTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
           </div>
         </li>
           {{else}}
@@ -127,7 +126,6 @@
         </ul>
 
       <br>
-      <button id="confirmSale">Confirm Sale</button>
       <br><br>
     </div>
 
@@ -166,8 +164,9 @@
           {{/each}}
         </ul> 
 
-        <button id="finalTrans">Finalize Purchase</button>
     </div>
+      <br>
+      <button id="finalTrans">Finalize Transaction</button>
   </div>
 
 </div>
