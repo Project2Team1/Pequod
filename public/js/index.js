@@ -35,14 +35,23 @@ $(document).ready(function () {
   let currentBalance = 1000;
   let startingBalance = 1000;
   let balanceSpent = 0;
-  let netChange = 0;
+  let transMade = 0;
 
   // Insert values into finance report 
 
-  $("#currentBalance").text(currentBalance);
-  $("#startingBalance").text(startingBalance);
-  $("#balanceSpent").text(balanceSpent);
-  $("#netChange").text(netChange);
+  function setReport() {
+
+    $("#currentBalance").text(currentBalance);
+    $("#startingBalance").text(startingBalance);
+    $("#balanceSpent").text(balanceSpent);
+    $("#transMade").text(transMade);
+    
+    
+    let days = 1;
+
+  }
+
+  setReport();
 
   // Initialize functions for changing transTotal values
 
@@ -50,6 +59,10 @@ $(document).ready(function () {
   let coin0 = 0;
   let coin1 = 0;
   let coin2 = 0;
+  let coin3 = 0;
+  let coin4 = 0; 
+  let coin5 = 0;
+
 
 
 
@@ -98,6 +111,58 @@ $(document).ready(function () {
     $("#transTotal3").text(coin2);
 
   });
+
+  $("#minus4").click(function() {
+
+    coin3 --; 
+
+    $("#transTotal4").text(coin3);
+
+  });
+
+  $("#plus4").click(function() {
+
+    coin3 ++;
+
+    $("#transTotal4").text(coin3);
+
+  });
+
+  $("#minus5").click(function() {
+
+    coin4 --; 
+
+    $("#transTotal5").text(coin4);
+
+  });
+
+  $("#plus5").click(function() {
+
+    coin4 ++;
+
+    $("#transTotal5").text(coin4);
+
+  });
+
+  $("#minus6").click(function() {
+
+    coin5 --; 
+
+    $("#transTotal6").text(coin5);
+
+  });
+
+  $("#plus6").click(function() {
+
+    coin5 ++;
+
+    $("#transTotal6").text(coin5);
+
+  });
+
+  
+
+
 
 
 
@@ -153,6 +218,9 @@ $(document).ready(function () {
   let coinsArray = [];
   let coinsBank = [];
 
+  console.log(coinsBank);
+  console.log(coinsArray);
+
 
   // populate coinBank on boot
 
@@ -163,27 +231,51 @@ $(document).ready(function () {
       let name = coinNames[i];
       let value = coinValues[i];
 
+      console.log(coinValues);
+      
+
       let initDeposit = {
         name: name,
-        value: value,
+        value: parseInt(value.slice(2, 5)),
         number: 0
       };
 
       coinsBank.push(initDeposit);
     }
 
-    console.log("bank init");
-    console.log(coinsBank);
   }
 
   bankInit();
+
+  let days = 1;
+
+  // Advance time function
+
+  function advanceTime() {
+
+    days++;
+
+    console.log(days);
+
+    for (i = 0; i < coinNames.length; i++) {
+
+      console.log(coinsBank[i].value);
+
+    }
+  }
 
 
   // PURCHASE FUNCTION
 
   function buyCoins() {
 
-    // For each coin
+    
+
+    
+    transMade++;
+
+
+    // for each coin
 
     for (i = 0; i < coinNames.length; i++) {
 
@@ -191,15 +283,76 @@ $(document).ready(function () {
 
       let purchase = coinsBank[i].number ; 
 
-      console.log("Old bank number: " + purchase);
-
       coinsBank[i].number = purchase + parseInt($("#transTotal" + j).text());
 
-      console.log(coinsBank[i].number);
 
 
 
       // subtract coin price from current balance
+      
+
+      // value of the coin
+
+      let purPrice = coinsBank[i].value;
+
+      // store value of number of coins to be bought/sold
+
+      let buyOrSell = parseInt($("#transTotal" + j).text());
+
+      console.log("BoS: " + buyOrSell);
+
+      console.log(purPrice);
+
+
+
+      // if buying
+
+      if (buyOrSell > 0) {
+
+        console.log("buying");
+
+        let purTotal = purPrice * buyOrSell;
+
+        if (currentBalance >= Math.abs(purTotal)) {
+
+          // multiply purchase price by number of coins purchased
+
+          // add purchase price to balance spent
+
+          balanceSpent = balanceSpent + purTotal;
+
+          // subtract purchase price from current balance
+          currentBalance = currentBalance - purTotal;
+
+        }else {
+          console.log("Purchase failed! Not enough cash.");
+
+          alert("You can't spend money you don't have! Try again.")
+        }
+
+        
+      }else if (buyOrSell === 0) {
+        console.log("zero!");
+
+      }else {
+
+        if (coinsBank[i].number >= Math.abs(buyOrSell)) {
+
+          let purTotal = purPrice * buyOrSell;
+
+          console.log("selling");
+          console.log("purchase total: " + purTotal);
+          currentBalance = currentBalance - purTotal;
+
+        }else {
+          console.log("sale failed! Not enough coins");
+
+          alert("You can't sell coins you don't have! Try again.")
+        }
+      }
+
+      setReport();
+
 
 
     }
@@ -249,8 +402,6 @@ $(document).ready(function () {
       let value = "#transTotal" + j;
 
       let purchaseNum = $(value).text();
-
-      console.log(value);
 
       $("#modalTotal" + j).text(purchaseNum);
 
