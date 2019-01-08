@@ -439,6 +439,7 @@ $(document).ready(function () {
       // labels: ['Residential', 'Non-Residential', 'Utility'],
       colors:['#FEBFB3', '#E1396C', '#96D38C', '#D0F9B1'],
       textinfo: 'label+percentvalue+value',
+    
         marker: {
           colors: ['rgb(20, 55, 112)', 'rgb(16, 88, 206)', 'rgb(3, 27, 66)', 'rgb(2, 97, 249)', 'rgb(114,147,203)','rgb(125, 170, 242)'], 
         line: {
@@ -453,6 +454,9 @@ $(document).ready(function () {
       // width: 1000,
       height: 500,
       showlegend: false,
+      paper_bgcolor: '#F0F0F0',
+      background:('rgb(2, 97, 249)'),
+      
       margin: {
         l: 50,
         r: 50,
