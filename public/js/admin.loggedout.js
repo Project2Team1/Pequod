@@ -7,7 +7,6 @@ $(document).ready(function () {
   Object.keys($ID).forEach(key => {
     $ID[key] = $(`#${key}`);
   });
-  // console.log($ID);
 
   $ID.admin_form.submit(function(event) {
     event.preventDefault();
@@ -19,19 +18,19 @@ $(document).ready(function () {
       return false;
     }
 
-    console.log($(this).serializeArray());
-
-    let formObj = $(this).serializeArray().reduce((prevObj, {name, value}) => Object.assign({[name]: value}, prevObj), {});
-    console.log(formObj);
+    let formObj = 
+      $(this)
+        .serializeArray()
+        .reduce((prevObj, {name, value}) => Object.assign({[name]: value}, prevObj), {});
 
     $.post("/admin/login", formObj)
       .then((...args) => {
-        console.log(args.length, "post results:", ...args);
+        // console.log(args.length, "post results:", ...args);
         this.reset(); // reset the input form
         location.reload();
       })
       .catch( (...args) => {
-        console.log(args.length, "err results:", ...args);
+        // console.log(args.length, "err results:", ...args);
       });
   });
 
