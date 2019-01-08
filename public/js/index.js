@@ -218,6 +218,9 @@ $(document).ready(function () {
   let coinsArray = [];
   let coinsBank = [];
 
+  console.log(coinsBank);
+  console.log(coinsArray);
+
 
   // populate coinBank on boot
 
@@ -227,6 +230,9 @@ $(document).ready(function () {
 
       let name = coinNames[i];
       let value = coinValues[i];
+
+      console.log(coinValues);
+      
 
       let initDeposit = {
         name: name,
