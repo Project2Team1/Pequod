@@ -128,3 +128,17 @@ cursor: pointer;
 .svg-container{
   width: 550px;
 }
+
+.coinicon {
+  max-height: 3rem;
+}
+.progress {
+  height: 1rem;
+  font-weight: bolder;
+}
+.progress p {
+  position: absolute;
+  left:0;
+  right:0;
+  user-select: none;
+}

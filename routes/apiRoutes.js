@@ -7,12 +7,13 @@ const { isAuthenticated } = require('./middleware');
 
 
 router.use(
-  require('morgan')('dev'),
+  require('morgan')('dev')
 
+  /* //* custom message log
   (req, res, next) => {
     console.log(`\n\t\t@routes/api ${req.method.toUpperCase()} on ${req.baseUrl}${req.path} (${req.originalUrl})`);
     next();
-  }
+  } */
 );
 
 router.post('/coin', 
@@ -27,7 +28,6 @@ router.post('/coin',
 
   //* WITHOUT errors = Authenticated
   (req, res, _next) => {
-    // console.log("req.body:\n", req.body);
     db.CryptoCoin
       .create(req.body)
 

@@ -1,8 +1,7 @@
-<div id="home">
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Cryptocurrency Simulator</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
@@ -22,66 +21,90 @@
 
 <br>
 
-  <div class="container">
+<div class="container">
 
+  <br>
 
-    
-    <br>
-    
-    <div class="row">
-      <div class="col-lg-1"></div>
-      <div class="col-lg-10" id="startBlurb">
-        <p>
-          <span id="intro">Let's face it:</span> cryptocurrency is <i>complicated.</i> These days, the mechanics of trading cryptocurrencies are difficult to understand -- but at the core of all of the chaos there lies a very simple economic principle. This app is designed to simulate the bare-bones basics of trading currencies; see for yourself how beneath the bluster of the cutting-edge currency market, this commodity isn't so different than any other. 
-        </p>
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10" id="startBlurb">
+      <p>
+        <span id="intro">Let's face it:</span> cryptocurrency is <i>complicated.</i> These days, the mechanics of trading
+        cryptocurrencies are difficult to understand -- but at the core of all of the chaos there lies a very simple economic
+        principle. This app is designed to simulate the bare-bones basics of trading currencies; see for yourself how beneath
+        the bluster of the cutting-edge currency market, this commodity isn't so different than any other.
+      </p>
+    </div>
+    <div class="col-lg-1"></div>
+
+    <div class="container-fluid bg-transparent text-center">
+      <br>
+      <div class="row">
+        <h1 class="col">Realtime Market Values</h1>
       </div>
-      <div class="col-lg-1"></div>
+      <div id="rtList" class="row">
+        {{#each coins}}
+        <div class="col d-flex align-items-center">
+          <img class="coinicon" title="{{this.name}} ({{this.symbol}})" alt="{{this.name}}" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
+          <p class="rtValue m-0 ml-1 text-nowrap" data-id="{{this.symbol}}"></p>
+        </div>
+        {{else}}
+        <p class="col">There are currently no Coins being tracked.</p>
+        {{/each}}
+      </div>
+      <br>
+      <div class="row">
+        <div class="col p-0 progress rounded-0 bg-transparent">
+          <div class="progress-bar bg-info" style="width: 50%"></div>
+          <p class="m-0 text-dark">Next Update in: <span id="timeUntilUpdate">time</span></p>
+        </div>
+      </div>
+    </div>
 
-      
-    <br><br>
+
+    <br>
+
+  </div>
+
+  <br>
+
+  <div class="row" id="secondBox">
+    <div class="col-md-6" id="coinBox">
+      <br>
+      <p id="coinHeader" class="col">Transaction Panel</p>
+      <p style="text-align: center">Use this panel to buy and sell your coins.</p>
+      <br>
+      <ul class="list-group">
+        {{#each coins}}
+        <li data-id="coin-{{this.symbol}}" class="row align-content-center mx-0">
+          <div class="col align-self-center" id="coinIcon">
+            <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2X.png">
+            <a href="#" class="coinName">{{this.name}}</a>
+          </div>
+          <p class="col m-0 align-self-center" id="nonsense">$ {{this.value}}</p>
+          <div class="col align-self-center">
+            <button class="btn btn-danger  delete" id="minus{{this.id}}">-</button>
+            <button class="btn btn-success delete" id="plus{{this.id}}">+</button>
+            <strong>
+              <div id="transTotal{{this.id}}" class="purchaseNumber" style="position: relative; left: 30px;">0</div>
+            </strong>
+          </div>
+        </li>
+        {{else}}
+        <p>No Coins!?</p>
+        {{/each}}
+      </ul>
+
+      <br><br>
+
+      <!-- Trigger/Open The Modal -->
+      <button id="confirmTrans">Confirm Transaction</button>
 
     </div>
 
-    <br><br>
-
-
-    <div class="row" id="secondBox">
-      <div class="col-md-6" id="coinBox">
+    <div class="col-md-6">
 
       <br>
-        <p id="coinHeader">Transaction Panel</p>
-        <p style="text-align: center">Use this panel to buy and sell your coins.</p>
-        <br><br>
-        <ul class="list-group">
-          {{#each coins}}
-          <li data-id="coin-{{this.symbol}}" class="row align-content-center">
-          <div class="col" id="coinIcon">
-            <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
-            <a href="#" class="coinName">{{this.name}}</a>
-          </div>
-          <p class="col" id="nonsense">$ {{this.value}}</p>
-          <div class="col">
-            <button class="btn btn-danger  delete" id="minus{{this.id}}">-</button>
-            <button class="btn btn-success delete" id="plus{{this.id}}">+</button>
-            <strong><div id="transTotal{{this.id}}" class="purchaseNumber" style="position: relative; left: 30px;">0</div></strong>
-          </div>
-        </li>
-          {{else}}
-          <p>No Coins!?</p>
-          {{/each}}
-        </ul>
-
-        <br><br>
-
-        <!-- Trigger/Open The Modal -->
-        <button id="confirmTrans">Confirm Transaction</button>
-
-      </div>
-
-
-      <div class="col-md-6">
-
-        <br>
 
         <div class="card" id="bankCard" style="width: 18rem; text-align: center;">
           <div class="card-body">
@@ -92,39 +115,39 @@
             <li class="list-group-item"><span class="bankHead">Current Balance:</span> <span id="currentBalance"></span> </li>
             <li class="list-group-item"><span class="bankHead">Starting Balance:</span> <span id="startingBalance"></span> </li>
             <li class="list-group-item"><span class="bankHead">Balance spent: </span> <span id="balanceSpent"></span> </li>
-            <li class="list-group-item"><span class="bankHead">Net Change: </span> <span id="netChange"></span> </li>
+            <li class="list-group-item"><span class="bankHead">Transactions Made: </span> <span id="transMade"></span> </li>
           </ul>
       </div>
 
-      
-    <br><br>
-        
-      </div>
+      <br><br>
 
     </div>
+  </div>
 
-    <br><br>
-    <div class = "row">
-      <div class="col-md-12" id="coinBank">
-        <p id="coinHeader" style="position: relative; left: -75px;">Coin Bank</p>
-        <br><br>
-        <ul class="list-group">
-          {{#each coins}}
-          <li data-id="coin-{{this.symbol}}" class="row align-content-center">
+  <br>
+
+  <div class="row">
+    <div class="col-md-12" id="coinBank">
+      <p id="coinHeader" style="position: relative; left: -75px;">Coin Bank</p>
+      <br>
+      <ul class="list-group">
+        {{#each coins}}
+        <li data-id="coin-{{this.symbol}}" class="row align-content-center">
           <div class="col" id="coinIcon">
             <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
             <a href="#">{{this.name}}</a>
           </div>
           <p class="col">$ {{this.value}}</p>
           <div class="col">
-            <strong><div id="bankTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
+            <strong>
+              <div id="bankTotal{{this.id}}" style="position: relative; left: 30px;">0</div>
+            </strong>
           </div>
         </li>
-          {{else}}
-          <p>No Coins!?</p>
-          {{/each}}
-        </ul>
-
+        {{else}}
+        <p>No Coins!?</p>
+        {{/each}}
+      </ul>
       <br>
       <br><br>
 
@@ -134,49 +157,48 @@
 
     </div>
 
-    
-    
-    
-    <br><br><br>
+    <br>
 
   </div>
 
 
   <!-- The Modal -->
-<div id="myModal" class="modal">
+  <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <br>
-    <p style="text-align: center;"><strong>Remember,</strong> the goal for many who work with cryptocurrencies is to play the market and earn a profit. Try to buy coins at a low price, and sell them when you think the price is at its peak! </p>
-    <div class="container" id="modalContainer">
-    <br>
-    <ul class="list-group">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <br>
+      <p style="text-align: center;"><strong>Remember,</strong> the goal for many who work with cryptocurrencies is to play
+        the
+        market and earn a profit. Try to buy coins at a low price, and sell them when you think the price is at its peak! </p>
+      <div class="container" id="modalContainer">
+        <br>
+        <ul class="list-group">
           {{#each coins}}
           <li data-id="coin-{{this.symbol}}" class="row align-content-center">
-          <div class="col" id="coinIcon">
-            <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
-            <a href="#">{{this.name}}</a>
-          </div>
-          <p class="col">$ {{this.value}}</p>
-          <div class="col">
-            <strong><div id="modalTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
-          </div>
-        </li>
+            <div class="col" id="coinIcon">
+              <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
+              <a href="#">{{this.name}}</a>
+            </div>
+            <p class="col">$ {{this.value}}</p>
+            <div class="col">
+              <strong>
+                <div id="modalTotal{{this.id}}" style="position: relative; left: 30px;">0</div>
+              </strong>
+            </div>
+          </li>
           {{else}}
           <p>No Coins!?</p>
           {{/each}}
-        </ul> 
+        </ul>
 
-    </div>
+      </div>
       <br>
       <button id="finalTrans">Finalize Transaction</button>
+    </div>
+
   </div>
-
-</div>
-
-
 
 
 </div>
@@ -184,4 +206,62 @@
 
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    console.log("asdf")
+    // Find and store elements for real-time coin values
+    let rtElements = {};
+    document.querySelectorAll("#rtList .rtValue").forEach(ele => {
+      rtElements[ele.dataset.id] = ele;
+    });
+
+    let updateTimer = { id: NaN };
+    resetTimer(updateTimer);
+
+    new EventSource('/stream')
+      .addEventListener('latestQuotes',
+        ({ data } = {}) => {
+          data = JSON.parse(data);
+          if (data.quotes) {
+            resetTimer(updateTimer);
+            Object.entries(data.quotes).forEach(([symbol, quote]) => {
+              $(rtElements[symbol])
+                .hide()
+                .text(`$ ${quote.toFixed(4)}`)
+                .fadeIn(1500);
+            });
+          }
+        }
+      );
+
+    function resetTimer(timer) {
+      clearInterval(timer.id);
+      const SECONDS_PER_UPDATE = 10;
+      const UPDATE_INTERVAL_DIVISOR = 10; // update every half of a second
+      let multOfSecsLeft = SECONDS_PER_UPDATE * UPDATE_INTERVAL_DIVISOR;
+
+      timer.id = setInterval(() => {
+        // Checking at top of this function to get a full, last interval
+        if (multOfSecsLeft <= 0) {
+          clearInterval(timer.id); // stop the timer
+        }
+        else {
+          --multOfSecsLeft;
+
+          let secondsLeft = (multOfSecsLeft / UPDATE_INTERVAL_DIVISOR);
+          // If less than 10 seconds, display a single decimal digit
+          $(timeUntilUpdate).text(
+            (secondsLeft).toFixed(secondsLeft > 10 ? 0 : 1)
+          );
+
+          // Calculate the percentage of time remaining to update progress bar
+          let percent = secondsLeft / SECONDS_PER_UPDATE * 100;
+          $('.progress-bar')
+            .css("width", `${percent}%`)
+            .attr("aria-valuenow", percent);
+        }
+      }, 1000 / UPDATE_INTERVAL_DIVISOR); // seconds to update timer displays
+    }
+  });
+</script>
 <script src="/js/index.js"></script>
