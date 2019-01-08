@@ -1,13 +1,13 @@
-var db = require("../models");
 const router = require("express").Router();
 
-router.get("/", async function(req, res) {
-    
-  /* let examples = db.Example
-    .findAll({}); */
+const { CryptoCoin } = require("../models");
 
+
+//* Home Page
+router.get("/", async (req, res) => {
+    
   let coins = 
-    db.CryptoCoin
+    CryptoCoin
       .findAll({});
 
  /*  let markets =
@@ -21,9 +21,9 @@ router.get("/", async function(req, res) {
 
 });
 
-// Render 404 page for any unmatched routes
-router.get("*", function(req, res) {
-  return res.render("404");
-});
+
+//* Render 404 Page for any unmatched routes
+router.get("*", (req, res) => res.render("404"));
+
 
 module.exports = router;
