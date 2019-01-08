@@ -100,20 +100,20 @@ $(document).ready(function () {
   // Modal elements
   document.querySelectorAll("#myModal li[data-id]")
     .forEach(node => {
-    coins[node.dataset.id].modal = {
-      valueEl   : node.querySelector(".value"),
-      quantityEl: node.querySelector(".qty")
-    };
+      coins[node.dataset.id].modal = {
+        valueEl   : node.querySelector(".value"),
+        quantityEl: node.querySelector(".qty")
+      };
     });
   // Bank elements & quantity
   document.querySelectorAll("#coinBank li[data-id]")
     .forEach(node => {
-    coins[node.dataset.id].bank = {
-      valueEl   : node.querySelector(".value"),
+      coins[node.dataset.id].bank = {
+        valueEl   : node.querySelector(".value"),
 
-      quantity  : 0,
-      quantityEl: node.querySelector(".qty")
-    };
+        quantity  : 0,
+        quantityEl: node.querySelector(".qty")
+      };
     });
 
   // console.log(coins);
