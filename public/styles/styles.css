@@ -140,4 +140,5 @@ cursor: pointer;
 }
 .svg-container{
   width: 550px;
+  position: absolute;
 }
