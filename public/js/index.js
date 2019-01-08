@@ -15,7 +15,7 @@ $(document).ready(function () {
       ({ data } = {}) => {
         data = JSON.parse(data);
         if (data && data.quotes) {
-          resetTimer(updateTimer);
+          resetTimer(updateTimer, +data.interval);
           Object.entries(data.quotes).forEach(([symbol, quote]) => {
             $(rtElements[symbol])
               .hide()
@@ -26,9 +26,9 @@ $(document).ready(function () {
       }
     );
 
-  function resetTimer(timer) {
+  function resetTimer(timer, interval=10) {
     clearInterval(timer.id);
-    const SECONDS_PER_UPDATE = 10;
+    const SECONDS_PER_UPDATE = interval;
     const UPDATE_INTERVAL_DIVISOR = 10; // update every half of a second
     let multOfSecsLeft = SECONDS_PER_UPDATE * UPDATE_INTERVAL_DIVISOR;
 
