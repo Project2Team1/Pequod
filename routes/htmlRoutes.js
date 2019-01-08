@@ -24,13 +24,24 @@ router.get("/", async function(req, res) {
     // markets : await markets
   });
 
-  // db.CryptoCoin.findAll({}).then(findAllCryptoCoinResults => {
-  //   findAllCryptoCoinResults.forEach( (coin, index) => {
-  //     console.log(index);
-  //     for (k in coin) {
-  //       console.log(k);
-  //     }
-  //   });
+});
+
+router.get("/test", async function(req, res) {
+  
+  let coins = 
+    db.CryptoCoin
+      .findAll({})
+      .then(coinResults => coinResults.map(coin => { 
+        coin.value = 123;
+        return coin; }));
+
+  res.render("sseTest", {
+    msg     : "Welcome!",
+    coins   : await coins,
+    // examples: await examples,
+    // markets : await markets
+  });
+
 });
 
 // Render 404 page for any unmatched routes
