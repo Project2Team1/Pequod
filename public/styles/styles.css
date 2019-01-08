@@ -124,3 +124,7 @@ color: black;
 text-decoration: none;
 cursor: pointer;
 }
+
+.svg-container{
+  width: 550px;
+}
