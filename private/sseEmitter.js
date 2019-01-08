@@ -10,7 +10,7 @@ const { getLatestQuotes } = require('./../private/cmcAPI');
 //% emitter needs at least one listener for 'error' events or else a throw will exit Node process
 sseEmitter.on('error', (err) => console.error("EventEmitter error\n", err));
 
-const SECONDS_TO_CALL = 60;
+const SECONDS_TO_CALL = 10;
 
 setInterval(
   // setTimeout(
