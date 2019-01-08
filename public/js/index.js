@@ -45,12 +45,24 @@ $(document).ready(function () {
     $("#startingBalance").text(startingBalance);
     $("#balanceSpent").text(balanceSpent);
     $("#transMade").text(transMade);
-    
-    
-    let days = 1;
+
+
 
   }
 
+  function setBankValues() {
+
+    for (i=0; i< coinNames.length; i++) {
+      let j = i + 1;
+
+      $("#bankValue" +j).text($("#coinValue" +j).text())
+
+      console.log($("coinValue" +j).text());
+
+    }
+  }
+
+  
   setReport();
 
   // Initialize functions for changing transTotal values
@@ -62,6 +74,9 @@ $(document).ready(function () {
   let coin3 = 0;
   let coin4 = 0; 
   let coin5 = 0;
+
+
+
 
 
 
@@ -165,12 +180,13 @@ $(document).ready(function () {
 
 
 
-
   // COIN BANK OBJECT
 
   let coinNames = [];
 
   let coinValues = [];
+
+  let k = 1;
 
   // populate coinBank object on documentReady
 
@@ -188,16 +204,25 @@ $(document).ready(function () {
       console.log(coinNames);
 
 
+
       $("#nonsense").each(function(index) {
 
         console.log ( index + ": " + $(this).text() );
+
+        
+        $("#coinValue" + k).text(Math.floor(Math.random() * 500) + 50 );
+
   
-        let value = $(this).text();
+        let value = $("#coinValue" +k).text();
+
+        console.log("Value: " + value);
   
         coinValues.push(value);
   
         console.log(coinValues);
-  
+
+        k++;
+
   
       });
 
@@ -218,6 +243,22 @@ $(document).ready(function () {
   let coinsArray = [];
   let coinsBank = [];
 
+
+  function setNewValues() {
+
+    for (i=0; i < coinNames.length; i++) {
+      let j = i + 1;
+
+      coinsBank[i].value = Math.floor(Math.random() * 500) + 50;
+
+      console.log(coinsBank[i].name, coinsBank[i].value);
+
+      $("#coinValue" +j).text(coinsBank[i].value);
+      $("#bankValue" +j).text(coinsBank[i].value);
+      $("#modalValue" +j).text(coinsBank[i].value);
+    }
+  }
+
   console.log(coinsBank);
   console.log(coinsArray);
 
@@ -229,18 +270,21 @@ $(document).ready(function () {
     for (i = 0; i < coinNames.length; i++) {
 
       let name = coinNames[i];
-      let value = coinValues[i];
 
-      console.log(coinValues);
+      let j = i+1;
       
 
       let initDeposit = {
         name: name,
-        value: parseInt(value.slice(2, 5)),
+        value: parseInt($("#coinValue" +j).text()),
         number: 0
       };
 
       coinsBank.push(initDeposit);
+
+      console.log("test: " + initDeposit.value);
+
+
     }
 
   }
@@ -347,11 +391,13 @@ $(document).ready(function () {
         }else {
           console.log("sale failed! Not enough coins");
 
-          alert("You can't sell coins you don't have! Try again.")
+          alert("You can't sell coins you don't have! Try again.");
         }
       }
 
       setReport();
+      setBankValues();
+      setNewValues();
 
 
 
@@ -368,6 +414,9 @@ $(document).ready(function () {
       coin0 = 0;
       coin1 = 0;
       coin2 = 0;
+      coin3 = 0;
+      coin4 = 0;
+      coin5 = 0;
 
       $("#bankTotal" + j).text(coinsBank[i].number);
 
@@ -397,13 +446,17 @@ $(document).ready(function () {
     for (i=0; i<coinNames.length; i++) {
       let j = i + 1;
 
-      // change modal values
+      // change purchase numbers
 
       let value = "#transTotal" + j;
 
       let purchaseNum = $(value).text();
 
       $("#modalTotal" + j).text(purchaseNum);
+
+      // Change coin values
+
+      $("#modalValue" +j).text($("#coinValue" +j).text());
 
     }
     modal.style.display = "block";
