@@ -37,9 +37,10 @@ app.engine(
 app.set("view engine", "handlebars");
 
 //* Routes
-app.use("/api"  , require("./routes/apiRoutes"  ));
-app.use("/admin", require("./routes/adminRoutes"));
-app.use("/"     , require("./routes/htmlRoutes" ));
+app.use("/api"   , require("./routes/apiRoutes"     ));
+app.use("/admin" , require("./routes/adminRoutes"   ));
+app.use("/stream", require("./routes/sseStreamRoute"));
+app.use("/"      , require("./routes/htmlRoutes"    ));
 
 
 //* DB/Model Options
