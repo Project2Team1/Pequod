@@ -57,6 +57,7 @@ $(document).ready(function () {
   // #endregion REALTIME Market Value Logic
 
 
+  // #region Variables Setup
   const modal = document.getElementById("myModal");
 
 
@@ -81,45 +82,50 @@ $(document).ready(function () {
   } */ 
 
   // Value & Transaction Panel elements 
-  document.querySelectorAll("#transactionPanel li[data-id]").forEach(node => {
-    coins[node.dataset.id] = {
+  document.querySelectorAll("#transactionPanel li[data-id]")
+    .forEach(node => {
+      coins[node.dataset.id] = {
 
-      value: 0,
-      
-      trans: {
-        valueEl: node.querySelector(".value"),
+        value: 0,
         
-        quantity  : 0,
-        quantityEl: node.querySelector(".qty")
-      }
+        trans: {
+          valueEl: node.querySelector(".value"),
+          
+          quantity  : 0,
+          quantityEl: node.querySelector(".qty")
+        }
 
-    };
-  });
+      };
+    });
   // Modal elements
-  document.querySelectorAll("#myModal li[data-id]").forEach(node => {
+  document.querySelectorAll("#myModal li[data-id]")
+    .forEach(node => {
     coins[node.dataset.id].modal = {
       valueEl   : node.querySelector(".value"),
       quantityEl: node.querySelector(".qty")
     };
-  });
+    });
   // Bank elements & quantity
-  document.querySelectorAll("#coinBank li[data-id]").forEach(node => {
+  document.querySelectorAll("#coinBank li[data-id]")
+    .forEach(node => {
     coins[node.dataset.id].bank = {
       valueEl   : node.querySelector(".value"),
 
       quantity  : 0,
       quantityEl: node.querySelector(".qty")
     };
-  });
+    });
 
-  console.log(coins);
+  // console.log(coins);
+  // #endregion Variable Setup
 
 
-
-  // One-off DOM elements
+  //* One-off DOM elements
   $("#startingInvestment").text(startingInvestment);
   
-  // Insert values into finance report 
+
+  // #region Utility Functions
+
   function updateReport() {
     coinBankValue = Object.values(coins).reduce(
       (acc, currCoin) => 
@@ -133,27 +139,6 @@ $(document).ready(function () {
     $("#transMade").text(transMade);
     $("#totalValue").text(totalValue);
   }
-
-  updateReport();
-
-
-  
-  $(".minus").click(function() {
-    const id = this.dataset.id;
-
-    let qty = coins[id].trans.quantity;
-    let inBank = coins[id].bank.quantity;
-    if (qty <= -inBank){ return; }
-    
-    coins[id].trans.quantityEl.textContent =
-      --coins[id].trans.quantity;
-  });
-
-  $(".plus").click(function() {
-    coins[this.dataset.id].trans.quantityEl.textContent =
-      ++coins[this.dataset.id].trans.quantity;
-  });
-
 
   function setNewValues() {
 
@@ -171,12 +156,6 @@ $(document).ready(function () {
 
     console.log(coins);
   }
-
-  // Initialize coins with random values
-  setNewValues();
-
-
-  // PURCHASE FUNCTION
 
   function buyCoins() {
     transMade++;
@@ -207,6 +186,25 @@ $(document).ready(function () {
     updateReport();
   }
 
+  // #endregion Utility Functions
+  
+
+  // #region Click Handlers
+  $(".minus").click(function() {
+    const id = this.dataset.id;
+
+    let qty = coins[id].trans.quantity;
+    let inBank = coins[id].bank.quantity;
+    if (qty <= -inBank){ return; }
+    
+    coins[id].trans.quantityEl.textContent =
+      --coins[id].trans.quantity;
+  });
+
+  $(".plus").click(function() {
+    coins[this.dataset.id].trans.quantityEl.textContent =
+      ++coins[this.dataset.id].trans.quantity;
+  });
 
   // User clicks the button that opens the modal 
   document.getElementById("confirmTrans").onclick = function () {
@@ -217,7 +215,6 @@ $(document).ready(function () {
 
     modal.style.display = "block";
   };
-
   
   document.getElementById("finalTrans").onclick = function () {
 
@@ -265,8 +262,7 @@ $(document).ready(function () {
 
   };
 
-  // MODAL INFO
-
+  //* MODAL INFO
   // When the user clicks on <span> (x), close the modal
   document.getElementsByClassName("close")[0].onclick = function() {
     modal.style.display = "none";
@@ -278,5 +274,12 @@ $(document).ready(function () {
       modal.style.display = "none";
     }
   };
+  // #endregion Click Handlers
 
+
+  // #region START OF EXECUTION
+  setNewValues(); // Initialize coins with random values and
+  updateReport();
+  // #endregion START OF EXECUTION
+  
 });
