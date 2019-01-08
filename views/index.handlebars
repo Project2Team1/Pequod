@@ -59,7 +59,7 @@
             <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
             <a href="#" class="coinName">{{this.name}}</a>
           </div>
-          <p class="col" id="nonsense">$ {{this.value}}</p>
+          <p class="col" id="nonsense">$ <span id="coinValue{{this.id}}">{{this.value}}</span></p>
           <div class="col">
             <button class="btn btn-danger  delete" id="minus{{this.id}}">-</button>
             <button class="btn btn-success delete" id="plus{{this.id}}">+</button>
@@ -115,7 +115,7 @@
             <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
             <a href="#">{{this.name}}</a>
           </div>
-          <p class="col">$ {{this.value}}</p>
+          <p class="col">$ <span id="bankValue{{this.id}}">n/a</span></p>
           <div class="col">
             <strong><div id="bankTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
           </div>
@@ -154,7 +154,7 @@
             <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
             <a href="#">{{this.name}}</a>
           </div>
-          <p class="col">$ {{this.value}}</p>
+          <p class="col">$ <span id="modalValue{{this.id}}">{{this.value}}</span></p>
           <div class="col">
             <strong><div id="modalTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
           </div>
