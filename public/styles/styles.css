@@ -138,3 +138,6 @@ cursor: pointer;
   right:0;
   user-select: none;
 }
+.svg-container{
+  width: 550px;
+}

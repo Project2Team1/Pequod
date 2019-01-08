@@ -428,8 +428,52 @@ $(document).ready(function () {
     console.log("clicked!");
     buyCoins();
 
+    console.log("Test",parseInt(coinsBank[0].number))
+
+    var data = [{
+      // values: [1, 2, 3],
+      values: [parseInt(coinsBank[0].number),parseInt(coinsBank[1].number),parseInt(coinsBank[2].number)],
+      labels: [coinsBank[0].name,coinsBank[1].name,coinsBank[2].name],
+  
+      // labels: ['Residential', 'Non-Residential', 'Utility'],
+      colors:['#FEBFB3', '#E1396C', '#96D38C', '#D0F9B1'],
+      type: 'pie'
+    }];
+    var layout = {
+      autosize: false,
+      width: 530,
+      height: 500,
+  
+    
+    };
+
+    Plotly.newPlot('myDiv', data, layout, {showSendToCloud:true});
 
 
   });
 
-});
+
+
+  console.log("Thisone",coinNames);
+  // Plotly graphs
+  console.log("Test",parseInt(coinsBank[0].number))
+  // var data = [{
+  //   values: [1, 2, 3],
+  //   // values: [parseInt(coinsBank[0].number),parseInt(coinsBank[1].number),parseInt(coinsBank[2].number)],
+  //   labels: [coinsBank[0].name,coinsBank[1].name,coinsBank[2].name],
+
+  //   // labels: ['Residential', 'Non-Residential', 'Utility'],
+  //   // colors:['#FEBFB3', '#E1396C', '#96D38C', '#D0F9B1'],
+  //   type: 'pie'
+  // }];
+  // var layout = {
+  //   autosize: false,
+  //   width: 530,
+  //   height: 500,
+
+  
+  // };
+
+
+  // Plotly.newPlot('myDiv', data, layout, {showSendToCloud:true});
+  });
