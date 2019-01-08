@@ -81,13 +81,8 @@
             <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2X.png">
             <a href="#" class="coinName">{{this.name}}</a>
           </div>
-<<<<<<< HEAD
           <p class="col" id="nonsense">$ <span id="coinValue{{this.id}}">{{this.value}}</span></p>
           <div class="col">
-=======
-          <p class="col m-0 align-self-center" id="nonsense">$ {{this.value}}</p>
-          <div class="col align-self-center">
->>>>>>> development
             <button class="btn btn-danger  delete" id="minus{{this.id}}">-</button>
             <button class="btn btn-success delete" id="plus{{this.id}}">+</button>
             <strong>
@@ -176,7 +171,6 @@
         <ul class="list-group">
           {{#each coins}}
           <li data-id="coin-{{this.symbol}}" class="row align-content-center">
-<<<<<<< HEAD
           <div class="col" id="coinIcon">
             <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
             <a href="#">{{this.name}}</a>
@@ -186,19 +180,6 @@
             <strong><div id="modalTotal{{this.id}}" style="position: relative; left: 30px;">0</div></strong>
           </div>
         </li>
-=======
-            <div class="col" id="coinIcon">
-              <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2x.png">
-              <a href="#">{{this.name}}</a>
-            </div>
-            <p class="col">$ {{this.value}}</p>
-            <div class="col">
-              <strong>
-                <div id="modalTotal{{this.id}}" style="position: relative; left: 30px;">0</div>
-              </strong>
-            </div>
-          </li>
->>>>>>> development
           {{else}}
           <p>No Coins!?</p>
           {{/each}}
