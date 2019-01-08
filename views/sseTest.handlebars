@@ -68,7 +68,7 @@
 
     function resetTimer(timer) {
       clearInterval(timer.id);
-      const SECONDS_PER_UPDATE = 60;
+      const SECONDS_PER_UPDATE = 10;
       const UPDATE_INTERVAL_DIVISOR = 10; // update every half of a second
       let multOfSecsLeft = SECONDS_PER_UPDATE * UPDATE_INTERVAL_DIVISOR;
 
