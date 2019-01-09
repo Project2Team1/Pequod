@@ -69,8 +69,17 @@
     <div class="col-md-6 d-flex flex-column flex-nowrap justify-content-between pl-0" id="transactionPanel">
       
       <div class="row justify-content-center mt-3">
-        <p class="col-12" id="coinHeader">Transaction Panel</p>
+        <p class="col-12 font-special coinHeader">Transaction Panel</p>
         <p class="col-12 text-center">Use this panel to buy and sell your coins.</p>
+      </div>
+
+      <div class="row m-0">
+        <small id="transNetMsg" class="col text-center">
+        </small>
+      </div>
+      <div class="row m-0 pb-2">
+        <small id="feedbackMsg" class="col">
+        </small>
       </div>
 
       <div class="row m-0">
@@ -78,17 +87,47 @@
           {{#each coins}}
           <li data-id="{{this.symbol}}" class="row mx-0 mt-2">
 
-            <div class="col-5 align-self-center d-flex flex-nowrap pl-0">
+            <div class="col-4 align-self-center d-flex flex-nowrap pl-0">
               <img class="coinicon" src="images/cryptocurrency-icons/{{this.symbol}}@2X.png">
               <span class="ml-1 align-self-center">{{this.name}}</span>
             </div>
       
-            <p class="col-3 align-self-center m-0">$ <span class="value" id="coinValue{{this.id}}"></span></p>
+            <div class="col-4 align-self-center m-0">
+              <div class="row">
+                <p class="col m-0 align-self-center">
+                  $ <span class="value"></span>
+                </p>
+                {{!-- <div class="col px-0">
+                  <div class="row flex-nowrap justify-content-center">
+                  <i class="upPercent col-auto fas fa-chevron-circle-up   fa-sm p-0" style="display:none"></i>
+                  <i style="display:none" class="downPercent col-auto fas fa-chevron-circle-down fa-sm p-0"></i>
+                  </div>
+                  <div class="row justify-content-center">
+                    <small class="col text-center"><span class="percentage"></span></small>
+                  </div>
+                </div> --}}
+                <div class="col px-0">
+
+                  <div class="row justify-content-center">
+                    <i style="display:none" class="downPercent col-auto fas fa-chevron-circle-down fa-sm p-0"></i>
+                  </div>
+                  
+                  <div class="row justify-content-center">
+                    <small class="col text-center"><span class="percentage"></span></small>
+                  </div>
+
+                  <div class="row justify-content-center">
+                    <i class="upPercent col-auto fas fa-chevron-circle-up   fa-sm p-0" style="display:none"></i>
+                  </div>
+
+                </div>
+              </div>
+            </div>
       
             <div class="col-4">
               <div class="row flex-nowrap justify-content-around">
 
-                <button class="col btn minus p-0" data-id="{{this.symbol}}">
+                <button class="col btn minus p-0 bg-transparent" data-id="{{this.symbol}}">
                   <span class="fa-stack">
                     <i class="fas fa-coins   fa-stack-2x"></i>
                     <i class="fas fa-minus-circle fa-stack-1x fa-inverse"></i>
@@ -99,7 +138,7 @@
                   <strong><span data-id="{{this.symbol}}" class="transTotal qty">0</span></strong>
                 </div>
             
-                <button class="col btn plus p-0" data-id="{{this.symbol}}">
+                <button class="col btn plus p-0 bg-transparent" data-id="{{this.symbol}}">
                   <span class="fa-stack">
                     <i class="fas fa-coins       fa-stack-2x"></i>
                     <i class="fas fa-plus-circle fa-stack-1x fa-inverse"></i>
@@ -120,8 +159,8 @@
         <!-- Trigger/Open The Modal -->
         <button class="btn col-auto" id="confirmTrans">
           Confirm Transaction
-          <span id="confirmIcon" class="fa-stack">
-            <i class="fas fa-money-bill   fa-stack-2x"></i>
+          <span class="fa-stack">
+            <i id="spinIcon" class="fas fa-money-bill   fa-stack-2x"></i>
             <i class="fas fa-check-square fa-stack-1x"></i>
           </span>
           &nbsp;
@@ -132,16 +171,16 @@
 
     <div class="col-md-6">
       <br>
-        <div class="card w-75" id="bankCard">
+        <div class="card" id="bankCard">
           <div class="card-body">
-            <h4 class="card-title">Finance Report</h4>
-            <p class="card-text">Use this to track your portfolio's performance.</p>
+            <h4 class="card-title coinHeader font-special">Finance Portfolio</h4>
+            <p class="card-text font-message">Use this to track your portfolio's performance.</p>
           </div>
-          <ul class="list-group list-group-flush">
+          <ul class="list-group list-group-flush font-message">
             <li class="list-group-item"><span class="bankHead">Starting Investment:</span> $ <span id="startingInvestment"></span> </li>
             <li class="list-group-item"><span class="bankHead">Available Cash:</span> $ <span id="availableCash"></span> </li>
             <li class="list-group-item"><span class="bankHead">Coin Bank Value:</span> $ <span id="coinBankValue"></span> </li>
-            <li class="list-group-item"><span class="bankHead">Total Value:</span> $ <span id="totalValue"></span> </li>
+            <li class="list-group-item"><span class="bankHead">Total Portfolio Value:</span> $ <span id="totalValue"></span> </li>
             <li class="list-group-item"><span class="bankHead"># Transactions Made:</span> <span id="transMade"></span> </li>
           </ul>
       </div>
@@ -157,7 +196,10 @@
     <div class="col-md-6 d-flex flex-column flex-nowrap justify-content-between pl-0" id="coinBank">
       
       <div class="row justify-content-center mt-sm-3">
-        <p class="col-12" id="coinHeader">Coin Bank</p>
+        <p class="col-12 font-special coinHeader">
+          <i class="fas fa-piggy-bank fa-lg"></i>
+          Coin Bank
+        </p>
       </div>
 
       <div class="row m-0">
@@ -170,7 +212,7 @@
               <span class="ml-1 align-self-center">{{this.name}}</span>
             </div>
       
-            <p class="col-3 align-self-center m-0">$ <span class="value" id="coinValue{{this.id}}"></span></p>
+            <p class="col-3 align-self-center m-0">$ <span class="value"></span></p>
       
             <div class="col-4 align-self-center">
               {{!-- <div class="row flex-nowrap justify-content-around"> --}}
