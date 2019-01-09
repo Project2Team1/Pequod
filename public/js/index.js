@@ -59,14 +59,18 @@ $(document).ready(function () {
 
   // #region Variables Setup
   const modal = document.getElementById("myModal");
-  const iconSpin = document.getElementById("confirmIcon");
+  const iconSpin = document.getElementById("spinIcon");
+  const transNetEl = document.getElementById('transNetMsg');
+  const feedbackEl = document.getElementById('feedbackMsg');  
 
   //* Initialize economy values
-  let startingInvestment = 10000;
+  let startingInvestment = 5000;
   let availableCash = startingInvestment;
   let coinBankValue = 0;
   let transMade = 0;
   let totalValue = availableCash + coinBankValue;
+
+  let transNet = 0;
 
   //* Construct object for coins state
   let coins = {};
@@ -74,7 +78,7 @@ $(document).ready(function () {
   {
     BTH: {
       value,
-      trans: {valueEl, qty, qtyEl},
+      trans: {valueEl, qty, qtyEl, upEl, downEl, percentEl},
       modal: {valueEL, qtyEl},
       bank:  {valueEl, qty, qtyEl}
     ETH: {...},
@@ -92,11 +96,15 @@ $(document).ready(function () {
           valueEl: node.querySelector(".value"),
           
           quantity  : 0,
-          quantityEl: node.querySelector(".qty")
-        }
+          quantityEl: node.querySelector(".qty"),
 
+          percentEl    : node.querySelector(".percentage"),
+          upPercentEl  : node.querySelector(".upPercent"),
+          downPercentEl: node.querySelector(".downPercent")
+        }
       };
     });
+  
   // Modal elements
   document.querySelectorAll("#myModal li[data-id]")
     .forEach(node => {
@@ -144,6 +152,21 @@ $(document).ready(function () {
 
     Object.values(coins).forEach( coin => {
       let rnd = Math.floor(Math.random() * 500) + 50;
+
+      if (coin.value) {
+        const per = Math.abs(coin.value - rnd)/coin.value * 100;
+        $(coin.trans.percentEl).text(`${per.toFixed(2)}%`);
+
+        if (coin.value > rnd) { // Percentage loss
+          $(coin.trans.downPercentEl).show();
+          $(coin.trans.upPercentEl).hide();
+        }
+        else { // Price Percentage Gain
+          $(coin.trans.downPercentEl).hide();
+          $(coin.trans.upPercentEl).show();
+        }
+      }
+
       coin.value = rnd;
       $(coin.trans.valueEl)
         .hide()
@@ -159,6 +182,8 @@ $(document).ready(function () {
 
   function buyCoins() {
     transMade++;
+
+    transNet=0; updateTransNet();
 
     let transactionTotal = 0;
 
@@ -224,24 +249,57 @@ $(document).ready(function () {
 
     Plotly.newPlot('myDiv', data, layout, { showSendToCloud: true, responsive: false });
   }
+
+  function updateTransNet() {
+    if (transNet > 0) {
+      transNetEl.innerHTML = `This transaction will <strong>cost $ ${transNet}</strong> from your Available Cash.`;
+    }
+    else if (transNet < 0) {
+      transNetEl.innerHTML = `This transaction will <strong>credit ($ ${-transNet})</strong> to your Available Cash.`;
+    }
+    else {
+      transNetEl.innerHTML = "";
+    }
+  }
   // #endregion Utility Functions
   
   
   // #region Click Handlers
   $(".minus").click(function() {
-    const id = this.dataset.id;
+    const { value, trans, bank } = coins[this.dataset.id];
 
-    let qty = coins[id].trans.quantity;
-    let inBank = coins[id].bank.quantity;
+    let qty = trans.quantity;
+    let inBank = bank.quantity;
     if (qty <= -inBank){ return; }
+
+    transNet -= value; updateTransNet();
     
-    coins[id].trans.quantityEl.textContent =
-      --coins[id].trans.quantity;
+    trans.quantityEl.textContent =
+      --trans.quantity;
   });
 
   $(".plus").click(function() {
-    coins[this.dataset.id].trans.quantityEl.textContent =
-      ++coins[this.dataset.id].trans.quantity;
+    const { value, trans } = coins[this.dataset.id];
+
+    
+
+    if (transNet + value > availableCash ) {
+
+      $(feedbackEl)
+        .stop(true)
+        .fadeOut()
+        .text('You do not have enough Available Cash to buy that coin. Try selling coins to get more cash.')
+        .fadeIn(300).fadeOut(200).fadeIn(300)
+        .fadeOut(10000);
+
+      return;
+    }
+
+    transNet += value;
+    updateTransNet();
+
+    trans.quantityEl.textContent =
+      ++trans.quantity;
   });
 
   // User clicks the button that opens the modal 

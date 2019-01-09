@@ -135,10 +135,12 @@ body {
   /* position: absolute; */
 }
 
-.btn.plus .fa-coins {
+.btn.plus .fa-coins,
+.fa-chevron-circle-up {
   color: lightgreen;
 }
-.btn.minus .fa-coins {
+.btn.minus .fa-coins,
+.fa-chevron-circle-down {
   color: lightcoral;
 }
 #confirmTrans {
