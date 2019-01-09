@@ -255,7 +255,7 @@ $(document).ready(function () {
       transNetEl.innerHTML = `This transaction will <strong>cost $ ${transNet}</strong> from your Available Cash.`;
     }
     else if (transNet < 0) {
-      transNetEl.innerHTML = `This transaction will <strong>credit ($ ${-transNet})</strong> to your Available Cash.`;
+      transNetEl.innerHTML = `This transaction will <strong>credit $ (${-transNet})</strong> to your Available Cash.`;
     }
     else {
       transNetEl.innerHTML = "";
