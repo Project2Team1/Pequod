@@ -125,10 +125,6 @@ text-decoration: none;
 cursor: pointer;
 }
 
-.svg-container{
-  width: 550px;
-}
-
 .coinicon {
   max-height: 3rem;
 }
@@ -141,4 +137,8 @@ cursor: pointer;
   left:0;
   right:0;
   user-select: none;
+}
+.svg-container{
+  width: 550px;
+  position: absolute;
 }

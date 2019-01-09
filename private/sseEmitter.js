@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const moment = require('moment');
 
 const EventEmitter = require('events');
@@ -10,11 +12,44 @@ const { getLatestQuotes } = require('./../private/cmcAPI');
 //% emitter needs at least one listener for 'error' events or else a throw will exit Node process
 sseEmitter.on('error', (err) => console.error("EventEmitter error\n", err));
 
-const SECONDS_TO_CALL = 10;
+
+let interval = +process.env.SECONDS_TO_CALL || 9;
+
 
 setInterval(
-  // setTimeout(
   async () => {
+
+    //* Emit MOCK data if time interval is too small (protecting API credits)
+    if (interval < 10) {
+      interval = 9;
+      quotes =
+        {
+            BTC: 4037.78993712  + Math.random() * 800 - 400,
+            ETH: 153.145912577  + Math.random() *  30 -  15,
+            LTC: 37.7778238441  + Math.random() *   8 -   4,
+            XLM: 0.123514908275 + Math.random() * 0.0246 - 0.0123,
+            XRP: 0.366287085377 + Math.random() * 0.0732 - 0.0366,
+          DOGE: 0.0022845094675 + Math.random() * 0.0004 - 0.0002,
+          BOOTY: 0
+        };
+
+      const dataToEmit = {
+        time: moment().format("MMM Do h:mm:ss a"),
+        quotes,
+        interval
+      };
+
+      console.log(
+        "emitting...",
+        dataToEmit,
+        sseEmitter.listenerCount('cmc'),
+        sseEmitter.listeners('cmc'));
+
+      sseEmitter.emit('cmc', 'latestQuotes', dataToEmit);
+
+      return;
+    }
+
     let coins = 
       db.CryptoCoin
         .findAll({})
@@ -22,25 +57,16 @@ setInterval(
 
     getLatestQuotes(await coins)
       .then(({ quotes } = {}) => {
-        console.log("\n\n", quotes, "\n\n");
+        // console.log("\n\n", quotes, "\n\n");
 
-        // Object.entries(quotes).forEach( ([symbol, {quote}={}]) => {
-        //   quotes[symbol] = quote.USD.price || 0; // replaces the (value) object associated with each symbol (key) to only its quote.USD.price
-        // });
-
-        quotes =
-          {
-             BTC: 4037.78993712  + Math.random() * 800 - 400,
-             ETH: 153.145912577  + Math.random() *  30 -  15,
-             LTC: 37.7778238441  + Math.random() *   8 -   4,
-             XLM: 0.123514908275 + Math.random() * 0.0246 - 0.0123,
-             XRP: 0.366287085377 + Math.random() * 0.0732 - 0.0366,
-            DOGE: 0.0022845094675+ Math.random() * 0.0004 - 0.0002
-          };
+        Object.entries(quotes).forEach( ([symbol, {quote}={}]) => {
+          quotes[symbol] = quote.USD.price || 0; // replaces the (value) object associated with each symbol (key) to only its quote.USD.price
+        });
 
         const dataToEmit = {
           time: moment().format("MMM Do h:mm:ss a"),
           quotes,
+          interval
         };
 
         console.log(
@@ -58,6 +84,7 @@ setInterval(
     ; // getLatestQuotes()
   },
 
-  1000 * SECONDS_TO_CALL); // setInterval
+  1000 * interval); // setInterval
+
 
 module.exports = sseEmitter;
