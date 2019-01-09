@@ -59,7 +59,7 @@ $(document).ready(function () {
 
   // #region Variables Setup
   const modal = document.getElementById("myModal");
-  const iconSpin = document.getElementById("confirmIcon")
+  const iconSpin = document.getElementById("confirmIcon");
 
   //* Initialize economy values
   let startingInvestment = 10000;
@@ -186,7 +186,7 @@ $(document).ready(function () {
   }
 
   function makePieChart() {
-    
+
     var data = [{
       values: Object.values(coins).map(coin => coin.value * coin.bank.quantity),
 
