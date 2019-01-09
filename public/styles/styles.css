@@ -22,9 +22,9 @@ body {
   text-align:center;
 }
 
-#coinHeader {
+.coinHeader {
   text-align: center;
-  font-family:Arial, Helvetica, sans-serif;
+  /* font-family:Arial, Helvetica, sans-serif; */
   text-shadow: 3px 2px rgba(212, 210, 210, 0.664);
   font-size:20pt;
 }
@@ -161,4 +161,12 @@ body {
 }
 #finalTrans:hover {
   background: lightgreen;
+}
+
+.font-special {
+  font-family: 'Comfortaa', cursive;
+}
+
+.font-message { 
+  font-family: 'Roboto', sans-serif;
 }
