@@ -170,3 +170,7 @@ body {
 .font-message { 
   font-family: 'Roboto', sans-serif;
 }
+
+#myDiv { 
+  min-height: 50vh;
+}

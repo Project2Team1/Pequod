@@ -34,7 +34,7 @@ $(document).ready(function () {
 
   $ID.newCoin_form.submit( function(event) {
     event.preventDefault();
-    $ID.postFeedback.text('');
+    $ID.postFeedback.stop(true).text('').show();
 
     this.classList.remove('was-validated');
 
