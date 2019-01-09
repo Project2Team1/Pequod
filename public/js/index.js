@@ -226,7 +226,7 @@ $(document).ready(function () {
   }
   // #endregion Utility Functions
   
-
+  
   // #region Click Handlers
   $(".minus").click(function() {
     const id = this.dataset.id;
