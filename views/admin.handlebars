@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Cryptocurrency Simulator</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    <a class="navbar-brand" href="/">Cryptocurrency Simulator</a>
+    {{!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -16,40 +16,58 @@
                 <a class="nav-link" href="#">Learn More</a>
             </li>
         </ul>
-    </div>
+    </div> --}}
 </nav>
 
 <br>
 
 <div class="container">
     {{#unless authorized}}
-    <form id="admin_form">
-        <label>Password</label>
-        <input name="pw_input" type="password" autofocus required>
-        <input type="submit" class="btn btn-warning" value="Login">
+    <form class="row py-3" id="admin_form">
+        <input class="col-auto ml-3" name="pw_input" type="password" autofocus required>
+        <button type="submit" class="col-auto btn btn-warning ml-2">
+            <div id="locks">
+                <i id="unlock" class="fas fa-unlock mr-1"></i>
+                <i id="lock" class="fas fa-lock mr-1"></i>
+            </div>
+            Login
+        </button>
     </form>
     {{else}}
-    <a href="/admin/logout" class="btn btn-warning">Admin Logout</a>
-    <form id="newCoin_form">
-        <label>New Coin Name</label>
-        <input
-            id="newCoin_inputName"
-            name="name" type="text"
-            onblur="this.value = this.value.trim()" 
-            autofocus required>
-        <br>
-        <label>New Coin Symbol</label>
-        <input
-            id="newCoin_inputSymbol"
-            name="symbol" type="text"
-            placeholder="ABC"
-            pattern='[A-Za-z]{2,5}' 
-            oninvalid="this.setCustomValidity('Symbol should be 2 to 5 LETTERS')"
-            required>
-        <br>
-        <img id="newCoin_img">
-        <button class="btn btn-danger" type="submit">+ Coin +</button>
+    <br>
+    <a href="/admin/logout" class="row btn btn-warning ml-3">
+        <i class="fas fa-user-lock mr-1"></i>
+        Admin Logout
+    </a>
+    <br><br>
+    <form class="row ml-3" id="newCoin_form">
+        <div class="col">
+            <div class="form-group row">
+                <label class="col-3">New Coin Name</label>
+                <input id="newCoin_inputName" class="col-4" name="name" type="text" onblur="this.value = this.value.trim()" autofocus required>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-3">New Coin Symbol</label>
+                <input id="newCoin_inputSymbol" class="col-4" name="symbol" type="text" placeholder="ABC" pattern='[A-Za-z]{2,5}' oninvalid="this.setCustomValidity('Symbol should be 2 to 5 LETTERS')"
+                style="line-height: 3rem"
+                required>
+                <img class="col-auto coinicon p-0 ml-2 align-self-center" id="newCoin_img">
+            </div>
+
+            
+            <button class="btn btn-danger" type="submit">
+                Add Coin
+                <span class="fa-stack">
+                    <i class="fas fa-coins       fa-stack-2x"></i>
+                    <i class="fas fa-plus-circle fa-stack-1x text-danger"></i>
+                  </span>
+            </button>
+        </div>
     </form>
+    <br>
+    <p class="row ml-3"><span id="postFeedback"></span></p>
+    <br>
     {{/unless}}
 </div>
 

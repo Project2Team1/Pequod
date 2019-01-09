@@ -2,11 +2,18 @@ $(document).ready(function () {
 
   const $ID = {
     admin_form,
+    locks,
+    unlock,
+    lock
   };
+
 
   Object.keys($ID).forEach(key => {
     $ID[key] = $(`#${key}`);
   });
+
+  $ID.lock.show();
+  $ID.unlock.hide();
 
   $ID.admin_form.submit(function(event) {
     event.preventDefault();
@@ -25,9 +32,11 @@ $(document).ready(function () {
 
     $.post("/admin/login", formObj)
       .then((...args) => {
-        // console.log(args.length, "post results:", ...args);
+        console.log(args.length, "post results:", ...args);
+        $ID.lock.hide(600);
+        $ID.unlock.show(600);
         this.reset(); // reset the input form
-        location.reload();
+        setTimeout(()=> location.reload(), 1000);
       })
       .catch( (...args) => {
         // console.log(args.length, "err results:", ...args);

@@ -4,7 +4,9 @@ $(document).ready(function () {
     newCoin_form       ,
     newCoin_inputName  ,
     newCoin_inputSymbol,
-    newCoin_img
+    newCoin_img,
+
+    postFeedback
   };
 
   Object.keys($ID).forEach(key => {
@@ -32,6 +34,7 @@ $(document).ready(function () {
 
   $ID.newCoin_form.submit( function(event) {
     event.preventDefault();
+    console.log("submitting");
 
     this.classList.remove('was-validated');
 
@@ -52,7 +55,9 @@ $(document).ready(function () {
 
       .then((...args) => {
         // console.log(args.length, "post results:", ...args);
-        //TODO: success feedback
+        $ID.postFeedback
+          .text(`${name} (${symbol}) added successfully!`)
+          .hide(5000);
         this.reset();
         $ID.newCoin_img.attr({src: null});
         $(this).find("[autofocus]").focus();
@@ -61,11 +66,13 @@ $(document).ready(function () {
       .catch( ({status, responseJSON: {type="", path}={}}={}, textStatus, error) => {
         // console.log(status, type, path, textStatus, error);
         if (status === 400 && type.includes("unique")) {
-          //TODO: error feedback - uniqueness
-          console.log(`Coin with that '${path}' already exists.`);
+          $ID.postFeedback
+            .text(`Coin with that '${path}' already exists!`);
         }
         else {
-          //TODO: misc error feedback
+          $ID.postFeedback
+            .text(`There was a problem, please try again later.`)
+            .hide(10000);
         }
       });
 
