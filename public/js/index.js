@@ -124,7 +124,6 @@ $(document).ready(function () {
       };
     });
 
-  // console.log(coins);
   // #endregion Variable Setup
 
 
@@ -177,7 +176,6 @@ $(document).ready(function () {
       coin.bank .valueEl.textContent = rnd;
     });
 
-    console.log(coins);
   }
 
   function buyCoins() {
@@ -196,7 +194,7 @@ $(document).ready(function () {
 
     if (transactionTotal > availableCash) {
       console.log("Purchase failed! Not enough cash.", transactionTotal, availableCash);
-      return alert("You can't spend money you don't have! Try again.");
+      return alert("You can't spend money you don't have! No Cheating. Try again.");
     }
 
     Object.values(coins).forEach(coin => {
