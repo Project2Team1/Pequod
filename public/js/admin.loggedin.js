@@ -22,9 +22,9 @@ $(document).ready(function () {
       this.setCustomValidity('');
       $ID.newCoin_img
         .one("error", function() {
-          $(this).attr({src: './../images/cryptocurrency-icons/generic@2x.png'});
+          $(this).attr({src: './../images/cryptocurrency-icons/generic@2X.png'});
         })
-        .attr({src: `./../images/cryptocurrency-icons/${symbol}@2x.png`});
+        .attr({src: `./../images/cryptocurrency-icons/${symbol}@2X.png`});
     }
     else {
       $ID.newCoin_img.attr({src: null});
