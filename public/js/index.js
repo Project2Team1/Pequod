@@ -59,7 +59,7 @@ $(document).ready(function () {
 
   // #region Variables Setup
   const modal = document.getElementById("myModal");
-
+  const iconSpin = document.getElementById("confirmIcon");
 
   //* Initialize economy values
   let startingInvestment = 10000;
@@ -181,11 +181,49 @@ $(document).ready(function () {
 
     availableCash -= transactionTotal;
     
-    console.log("def calls");
     setNewValues();
     updateReport();
   }
 
+  function makePieChart() {
+
+    var data = [{
+      values: Object.values(coins).map(coin => coin.value * coin.bank.quantity),
+
+      labels: Object.keys(coins),
+
+      colors: ['#FEBFB3', '#E1396C', '#96D38C', '#D0F9B1'],
+      textinfo: 'label+percentvalue+value',
+
+      marker: {
+        colors: [
+          'rgb(20, 55, 112)', 
+          'rgb(16, 88, 206)', 
+          'rgb(3, 27, 66)', 
+          'rgb(2, 97, 249)', 
+          'rgb(114,147,203)',
+          'rgb(125, 170, 242)'
+        ],
+
+        line: {
+          color: '#FFFFFF',
+          width: 8
+        }
+      },
+      type: 'pie',
+    }];
+
+    var layout = {
+      // autosize: true,
+      width: document.getElementById("myDiv").scrollWidth - 20,
+      // height: 500,
+      showlegend: false,
+      paper_bgcolor: '#F0F0F0',
+      background: ('rgb(2, 97, 249)'),
+    };
+
+    Plotly.newPlot('myDiv', data, layout, { showSendToCloud: true, responsive: false });
+  }
   // #endregion Utility Functions
   
 
@@ -207,59 +245,30 @@ $(document).ready(function () {
   });
 
   // User clicks the button that opens the modal 
-  document.getElementById("confirmTrans").onclick = function () {
+  document.getElementById('confirmTrans').onclick = function () {
     // Copy the quantities from transaction
     Object.values(coins).forEach(({ modal, trans }) => {
-      modal.quantityEl.textContent = trans.quantity;
+      let buySell = "";
+      if (trans.quantity > 0) { buySell="Buy" ; }
+      if (trans.quantity < 0) { buySell="Sell"; }
+
+      modal.quantityEl.textContent = `${buySell} ${Math.abs(trans.quantity)}`;
     });
 
-    modal.style.display = "block";
+    iconSpin.classList.add('fa-spin');
+    setTimeout(() => {
+      iconSpin.classList.remove('fa-spin');
+      modal.style.display = "block";
+    }, 1200);
+
   };
   
   document.getElementById("finalTrans").onclick = function () {
 
     buyCoins();
     modal.style.display = "none";
-    
-    var data = [{
-      values: Object.values(coins).map(coin => coin.value * coin.bank.quantity),
 
-      labels: Object.keys(coins),
-
-      // labels: ['Residential', 'Non-Residential', 'Utility'],
-      colors: ['#FEBFB3', '#E1396C', '#96D38C', '#D0F9B1'],
-      textinfo: 'label+percentvalue+value',
-
-      marker: {
-        colors: ['rgb(20, 55, 112)', 'rgb(16, 88, 206)', 'rgb(3, 27, 66)', 'rgb(2, 97, 249)', 'rgb(114,147,203)', 'rgb(125, 170, 242)'],
-        line: {
-          color: '#FFFFFF',
-          width: 8
-        }
-      },
-      type: 'pie'
-    }];
-
-    var layout = {
-      autosize: false,
-      // width: 1000,
-      height: 500,
-      showlegend: false,
-      paper_bgcolor: '#F0F0F0',
-      background: ('rgb(2, 97, 249)'),
-
-      margin: {
-        l: 50,
-        r: 50,
-        b: 100,
-        t: 100,
-        pad: 4
-      },
-
-    };
-
-    Plotly.newPlot('myDiv', data, layout, { showSendToCloud: true });
-
+    makePieChart();
   };
 
   //* MODAL INFO
@@ -280,6 +289,7 @@ $(document).ready(function () {
   // #region START OF EXECUTION
   setNewValues(); // Initialize coins with random values and
   updateReport();
+  makePieChart();
   // #endregion START OF EXECUTION
   
 });
